@@ -1,15 +1,218 @@
 <template>
-  <div class="container">
-    <text>Hello QuickApp - contest 2026 team 000</text>
+  <div class="page" onswipe="onSwipe">
+    <text class="title">小涵打砖块</text>
+    <text class="sub">小涵游戏开发</text>
+    <div class="btn" onclick="go">
+      <text class="btn-text">开始游戏</text>
+    </div>
+    <div class="btn2" onclick="goRecords">
+      <text class="btn2-text">最高记录</text>
+    </div>
+    <div class="btn3" onclick="showSettings">
+      <text class="btn3-text">设置</text>
+    </div>
+
+    <div if="{{ showPanel }}" class="panel" onclick="hidePanel">
+      <div class="panel-box" onclick="stopProp">
+        <text class="panel-title">操控方式</text>
+        <div class="opt" onclick="setGyro">
+          <text class="opt-text {{ controlMode === 0 ? 'opt-active' : '' }}">陀螺仪</text>
+        </div>
+        <div class="opt" onclick="setTouch">
+          <text class="opt-text {{ controlMode === 1 ? 'opt-active' : '' }}">触控滑动</text>
+        </div>
+        <div class="close-btn" onclick="hidePanel">
+          <text class="close-text">关闭</text>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
-<style>
-.container { flex-direction: column; justify-content: center; align-items: center; }
-</style>
-
 <script>
+import router from "@system.router"
+import storage from "@system.storage"
+
 export default {
-  data: { msg: 'hello' }
+  private: {
+    controlMode: 0,
+    showPanel: false
+  },
+
+  onInit() {
+    var self = this
+    storage.get({
+      key: 'controlMode',
+      success: function(data) {
+        self.controlMode = parseInt(data) || 0
+      }
+    })
+  },
+
+  go() {
+    router.push({
+      uri: "/pages/level",
+      params: { controlMode: this.controlMode }
+    })
+  },
+
+  goRecords() {
+    router.push({ uri: "/pages/record" })
+  },
+
+  onSwipe(e) {
+    if (e.direction === 'left' || e.direction === 'down') {
+      this.go()
+    }
+  },
+
+  showSettings() {
+    this.showPanel = true
+  },
+
+  hidePanel() {
+    this.showPanel = false
+  },
+
+  stopProp() {},
+
+  setGyro() {
+    this.controlMode = 0
+    storage.set({ key: 'controlMode', data: '0' })
+  },
+
+  setTouch() {
+    this.controlMode = 1
+    storage.set({ key: 'controlMode', data: '1' })
+  }
 }
 </script>
+
+<style>
+.page {
+  width: 480px;
+  height: 480px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #000000;
+}
+
+.title {
+  font-size: 48px;
+  color: #ffffff;
+  margin-bottom: 10px;
+}
+
+.sub {
+  font-size: 24px;
+  color: #666666;
+  margin-bottom: 50px;
+}
+
+.btn {
+  width: 240px;
+  height: 76px;
+  border-radius: 38px;
+  background-color: #1e90ff;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.btn-text {
+  font-size: 32px;
+  color: #ffffff;
+}
+
+.btn2 {
+  width: 240px;
+  height: 56px;
+  border-radius: 28px;
+  background-color: #333333;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.btn2-text {
+  font-size: 26px;
+  color: #cccccc;
+}
+
+.btn3 {
+  width: 240px;
+  height: 56px;
+  border-radius: 28px;
+  background-color: #2a2a3e;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn3-text {
+  font-size: 26px;
+  color: #cccccc;
+}
+
+.panel {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 480px;
+  height: 480px;
+  background-color: rgba(0,0,0,0.85);
+  justify-content: center;
+  align-items: center;
+  z-index: 20;
+}
+
+.panel-box {
+  width: 340px;
+  background-color: #1a1a2e;
+  border-radius: 20px;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+
+.panel-title {
+  font-size: 28px;
+  color: #ffffff;
+  margin-bottom: 24px;
+}
+
+.opt {
+  width: 260px;
+  height: 56px;
+  border-radius: 28px;
+  background-color: #2a2a3e;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.opt-text {
+  font-size: 24px;
+  color: #888888;
+}
+
+.opt-active {
+  color: #00ccff;
+}
+
+.close-btn {
+  width: 260px;
+  height: 50px;
+  border-radius: 25px;
+  background-color: #444444;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.close-text {
+  font-size: 22px;
+  color: #ffffff;
+}
+</style>

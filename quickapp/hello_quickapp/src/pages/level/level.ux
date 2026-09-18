@@ -1,0 +1,108 @@
+<template>
+  <div class="page" onswipe="onSwipe">
+    <text class="title">选择模式</text>
+    <div class="list">
+      <div class="lv" onclick="go(1)">
+        <text class="lv-text">挑战模式</text>
+        <text class="lv-sub" if="{{ bestTime > 0 }}">最佳时间: {{ bestTime }}秒</text>
+      </div>
+      <div class="lv" onclick="go(2)">
+        <text class="lv-text">血量模式</text>
+        <text class="lv-sub">生命与砖块</text>
+      </div>
+      <div class="lv" onclick="go(3)">
+        <text class="lv-text">极限模式</text>
+        <text class="lv-sub" if="{{ bestScore > 0 }}">最高分: {{ bestScore }}分</text>
+      </div>
+      <div class="lv" onclick="go(4)">
+        <text class="lv-text">繁殖模式</text>
+        <text class="lv-sub">蓝球风暴</text>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import router from "@system.router"
+import storage from "@system.storage"
+
+export default {
+  protected: {
+    controlMode: 0
+  },
+  private: {
+    bestTime: 0,
+    bestScore: 0
+  },
+
+  onInit() {
+    var self = this
+    this.controlMode = parseInt(this.controlMode) || 0
+    storage.get({
+      key: 'bestTime',
+      success: function(data) { self.bestTime = parseInt(data) || 0 }
+    })
+    storage.get({
+      key: 'bestScore',
+      success: function(data) { self.bestScore = parseInt(data) || 0 }
+    })
+  },
+
+  go(level) {
+    router.push({
+      uri: "/pages/game",
+      params: { level: level, controlMode: this.controlMode }
+    })
+  },
+
+  onSwipe(e) {
+    if (e.direction === 'right') {
+      router.back()
+    }
+  }
+}
+</script>
+
+<style>
+.page {
+  width: 480px;
+  height: 480px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #000000;
+}
+
+.title {
+  font-size: 34px;
+  color: #ffffff;
+  margin-bottom: 30px;
+}
+
+.list {
+  flex-direction: column;
+  align-items: center;
+}
+
+.lv {
+  width: 280px;
+  height: 72px;
+  border-radius: 36px;
+  background-color: #1a1a2e;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.lv-text {
+  font-size: 28px;
+  color: #ffffff;
+}
+
+.lv-sub {
+  font-size: 16px;
+  color: #888888;
+  margin-top: 4px;
+}
+</style>
