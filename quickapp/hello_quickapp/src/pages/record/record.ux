@@ -1,0 +1,102 @@
+<template>
+  <div class="page" onswipe="onSwipe">
+    <text class="title">最高记录</text>
+    <div class="list">
+      <div class="row">
+        <text class="row-label">挑战模式</text>
+        <text class="row-value" if="{{ bestTime > 0 }}">用时{{ bestTime }}秒</text>
+        <text class="row-value" if="{{ bestTime === 0 }}">暂无</text>
+      </div>
+      <div class="row">
+        <text class="row-label">血量模式</text>
+        <text class="row-value" if="{{ bestHpScore > 0 }}">{{ bestHpScore }}分</text>
+        <text class="row-value" if="{{ bestHpScore === 0 }}">暂无</text>
+      </div>
+      <div class="row">
+        <text class="row-label">极限模式</text>
+        <text class="row-value" if="{{ bestScore > 0 }}">{{ bestScore }}分</text>
+        <text class="row-value" if="{{ bestScore === 0 }}">暂无</text>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import router from "@system.router"
+import storage from "@system.storage"
+
+export default {
+  private: {
+    bestTime: 0,
+    bestHpScore: 0,
+    bestScore: 0
+  },
+
+  onInit() {
+    var self = this
+    storage.get({
+      key: 'bestTime',
+      success: function(data) { self.bestTime = parseInt(data) || 0 }
+    })
+    storage.get({
+      key: 'bestHpScore',
+      success: function(data) { self.bestHpScore = parseInt(data) || 0 }
+    })
+    storage.get({
+      key: 'bestScore',
+      success: function(data) { self.bestScore = parseInt(data) || 0 }
+    })
+  },
+
+  onSwipe(e) {
+    if (e.direction === 'right') {
+      router.back()
+    }
+  }
+}
+</script>
+
+<style>
+.page {
+  width: 480px;
+  height: 480px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #000000;
+}
+
+.title {
+  font-size: 34px;
+  color: #ffffff;
+  margin-bottom: 30px;
+}
+
+.list {
+  flex-direction: column;
+  align-items: center;
+}
+
+.row {
+  width: 300px;
+  height: 64px;
+  border-radius: 32px;
+  background-color: #1a1a2e;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 24px;
+  padding-right: 24px;
+  margin-bottom: 14px;
+}
+
+.row-label {
+  font-size: 24px;
+  color: #ffffff;
+}
+
+.row-value {
+  font-size: 24px;
+  color: #ffcc00;
+}
+</style>

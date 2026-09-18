@@ -1,0 +1,730 @@
+<template>
+  <div class="page">
+    <div class="field" onswipe="onSwipe">
+
+      <div class="info-bar">
+        <div class="info-item" if="{{ isI1 }}">
+          <text class="info-text">分数:{{ score }}</text>
+          <text class="info-text">用时:{{ gameTime }}秒</text>
+        </div>
+        <div class="info-item" if="{{ isHp }}">
+          <text class="info-text">血量:{{ hp }}</text>
+          <text class="info-text">分数:{{ score }}</text>
+        </div>
+        <div class="info-item" if="{{ isExt }}">
+          <text class="info-text">分数:{{ score }}</text>
+          <text class="info-text">用时:{{ gameTime }}秒</text>
+        </div>
+        <div class="info-item" if="{{ isBr }}">
+          <text class="info-text">分数:{{ score }}</text>
+          <text class="info-text">蓝球:{{ blueCount }}/10</text>
+        </div>
+      </div>
+
+      <div class="brick" if="{{ b0a }}" style="left:{{ b0x }}px;top:{{ b0y }}px;background-color:{{ b0c }};"></div>
+      <div class="brick" if="{{ b1a }}" style="left:{{ b1x }}px;top:{{ b1y }}px;background-color:{{ b1c }};"></div>
+      <div class="brick" if="{{ b2a }}" style="left:{{ b2x }}px;top:{{ b2y }}px;background-color:{{ b2c }};"></div>
+      <div class="brick" if="{{ b3a }}" style="left:{{ b3x }}px;top:{{ b3y }}px;background-color:{{ b3c }};"></div>
+      <div class="brick" if="{{ b4a }}" style="left:{{ b4x }}px;top:{{ b4y }}px;background-color:{{ b4c }};"></div>
+      <div class="brick" if="{{ b5a }}" style="left:{{ b5x }}px;top:{{ b5y }}px;background-color:{{ b5c }};"></div>
+      <div class="brick" if="{{ b6a }}" style="left:{{ b6x }}px;top:{{ b6y }}px;background-color:{{ b6c }};"></div>
+      <div class="brick" if="{{ b7a }}" style="left:{{ b7x }}px;top:{{ b7y }}px;background-color:{{ b7c }};"></div>
+      <div class="brick" if="{{ b8a }}" style="left:{{ b8x }}px;top:{{ b8y }}px;background-color:{{ b8c }};"></div>
+      <div class="brick" if="{{ b9a }}" style="left:{{ b9x }}px;top:{{ b9y }}px;background-color:{{ b9c }};"></div>
+      <div class="brick" if="{{ b10a }}" style="left:{{ b10x }}px;top:{{ b10y }}px;background-color:{{ b10c }};"></div>
+      <div class="brick" if="{{ b11a }}" style="left:{{ b11x }}px;top:{{ b11y }}px;background-color:{{ b11c }};"></div>
+      <div class="brick" if="{{ b12a }}" style="left:{{ b12x }}px;top:{{ b12y }}px;background-color:{{ b12c }};"></div>
+      <div class="brick" if="{{ b13a }}" style="left:{{ b13x }}px;top:{{ b13y }}px;background-color:{{ b13c }};"></div>
+      <div class="brick" if="{{ b14a }}" style="left:{{ b14x }}px;top:{{ b14y }}px;background-color:{{ b14c }};"></div>
+      <div class="brick" if="{{ b15a }}" style="left:{{ b15x }}px;top:{{ b15y }}px;background-color:{{ b15c }};"></div>
+      <div class="brick" if="{{ b16a }}" style="left:{{ b16x }}px;top:{{ b16y }}px;background-color:{{ b16c }};"></div>
+      <div class="brick" if="{{ b17a }}" style="left:{{ b17x }}px;top:{{ b17y }}px;background-color:{{ b17c }};"></div>
+      <div class="brick" if="{{ b18a }}" style="left:{{ b18x }}px;top:{{ b18y }}px;background-color:{{ b18c }};"></div>
+      <div class="brick" if="{{ b19a }}" style="left:{{ b19x }}px;top:{{ b19y }}px;background-color:{{ b19c }};"></div>
+
+      <div class="paddle" style="left:{{ px }}px;top:{{ py }}px;"></div>
+      <div class="ball {{ isBr ? 'ball-white' : '' }}" style="left:{{ bx }}px;top:{{ by }}px;"></div>
+
+      <div class="ball-blue" if="{{ l0a }}" style="left:{{ l0x }}px;top:{{ l0y }}px;"></div>
+      <div class="ball-blue" if="{{ l1a }}" style="left:{{ l1x }}px;top:{{ l1y }}px;"></div>
+      <div class="ball-blue" if="{{ l2a }}" style="left:{{ l2x }}px;top:{{ l2y }}px;"></div>
+      <div class="ball-blue" if="{{ l3a }}" style="left:{{ l3x }}px;top:{{ l3y }}px;"></div>
+      <div class="ball-blue" if="{{ l4a }}" style="left:{{ l4x }}px;top:{{ l4y }}px;"></div>
+      <div class="ball-blue" if="{{ l5a }}" style="left:{{ l5x }}px;top:{{ l5y }}px;"></div>
+      <div class="ball-blue" if="{{ l6a }}" style="left:{{ l6x }}px;top:{{ l6y }}px;"></div>
+      <div class="ball-blue" if="{{ l7a }}" style="left:{{ l7x }}px;top:{{ l7y }}px;"></div>
+      <div class="ball-blue" if="{{ l8a }}" style="left:{{ l8x }}px;top:{{ l8y }}px;"></div>
+      <div class="ball-blue" if="{{ l9a }}" style="left:{{ l9x }}px;top:{{ l9y }}px;"></div>
+
+      <div if="{{ over }}" class="mask" onclick="onMaskClick">
+        <text class="msg" if="{{ isI1 }}">游戏结束</text>
+        <text class="msg" if="{{ isHp }}">游戏结束</text>
+        <text class="msg" if="{{ isExt }}">游戏结束</text>
+        <text class="msg" if="{{ isBr }}">游戏结束</text>
+        <text class="hint" if="{{ isI1 }}">用时{{ gameTime }}秒，{{ timeRank }}</text>
+        <text class="hint" if="{{ isHp }}">血量归零</text>
+        <text class="hint" if="{{ isExt }}">得分{{ score }}分，{{ scoreRank }}</text>
+        <text class="hint" if="{{ isBr }}">得分{{ score }}分</text>
+        <text class="hint">本次消耗热量:{{ calories }}卡</text>
+        <text class="hint2">点击重来</text>
+      </div>
+
+      <div if="{{ win }}" class="mask" onclick="onMaskClick">
+        <text class="msg">恭喜过关!</text>
+        <text class="hint" if="{{ isI1 }}">用时{{ gameTime }}秒，{{ timeRank }}</text>
+        <text class="hint" if="{{ isHp }}">血量剩余{{ hp }}</text>
+        <text class="hint" if="{{ isExt }}">得分{{ score }}分，{{ scoreRank }}</text>
+        <text class="hint" if="{{ isBr }}">得分{{ score }}分</text>
+        <text class="hint">本次消耗热量:{{ calories }}卡</text>
+        <text class="hint2">点击继续</text>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import router from "@system.router"
+import sensor from "@system.sensor"
+import storage from "@system.storage"
+
+export default {
+  protected: {
+    level: 1,
+    controlMode: 0
+  },
+  private: {
+    score: 0,
+    state: 0,
+    over: false,
+    win: false,
+    isI1: false,
+    isHp: false,
+    isExt: false,
+    isBr: false,
+    timer: null,
+    fieldW: 480,
+    fieldH: 480,
+    playL: 75,
+    playR: 405,
+    playT: 82,
+    playB: 432,
+    bw: 52,
+    bh: 18,
+    bpad: 6,
+    pw: 100,
+    ph: 12,
+    px: 0,
+    py: 0,
+    bx: 0,
+    by: 0,
+    bvx: 0,
+    bvy: 0,
+    ballS: 22,
+    sensorX: 0,
+    filteredX: 0,
+    swipeVel: 0,
+    gameTime: 0,
+    calories: 0,
+    timeRank: '',
+    scoreRank: '',
+    hp: 3,
+    bestTime: 0,
+    bestScore: 0,
+    bestHpScore: 0,
+    b0x:0,b0y:0,b0a:false,b0c:'#ff3333',
+    b1x:0,b1y:0,b1a:false,b1c:'#ff3333',
+    b2x:0,b2y:0,b2a:false,b2c:'#ff3333',
+    b3x:0,b3y:0,b3a:false,b3c:'#ff3333',
+    b4x:0,b4y:0,b4a:false,b4c:'#ff3333',
+    b5x:0,b5y:0,b5a:false,b5c:'#ff3333',
+    b6x:0,b6y:0,b6a:false,b6c:'#ff3333',
+    b7x:0,b7y:0,b7a:false,b7c:'#ff3333',
+    b8x:0,b8y:0,b8a:false,b8c:'#ff3333',
+    b9x:0,b9y:0,b9a:false,b9c:'#ff3333',
+    b10x:0,b10y:0,b10a:false,b10c:'#ff3333',
+    b11x:0,b11y:0,b11a:false,b11c:'#ff3333',
+    b12x:0,b12y:0,b12a:false,b12c:'#ff3333',
+    b13x:0,b13y:0,b13a:false,b13c:'#ff3333',
+    b14x:0,b14y:0,b14a:false,b14c:'#ff3333',
+    b15x:0,b15y:0,b15a:false,b15c:'#ff3333',
+    b16x:0,b16y:0,b16a:false,b16c:'#ff3333',
+    b17x:0,b17y:0,b17a:false,b17c:'#ff3333',
+    b18x:0,b18y:0,b18a:false,b18c:'#ff3333',
+    b19x:0,b19y:0,b19a:false,b19c:'#ff3333',
+    blueCount: 0,
+    l0a:false,l0x:0,l0y:0,l0vx:0,l0vy:0,
+    l1a:false,l1x:0,l1y:0,l1vx:0,l1vy:0,
+    l2a:false,l2x:0,l2y:0,l2vx:0,l2vy:0,
+    l3a:false,l3x:0,l3y:0,l3vx:0,l3vy:0,
+    l4a:false,l4x:0,l4y:0,l4vx:0,l4vy:0,
+    l5a:false,l5x:0,l5y:0,l5vx:0,l5vy:0,
+    l6a:false,l6x:0,l6y:0,l6vx:0,l6vy:0,
+    l7a:false,l7x:0,l7y:0,l7vx:0,l7vy:0,
+    l8a:false,l8x:0,l8y:0,l8vx:0,l8vy:0,
+    l9a:false,l9x:0,l9y:0,l9vx:0,l9vy:0
+  },
+
+  onInit() {
+    var self = this
+    this.level = parseInt(this.level) || 1
+    this.controlMode = parseInt(this.controlMode) || 0
+    this.updateModeFlags()
+    storage.get({ key: 'bestTime', success: function(d) { self.bestTime = parseInt(d) || 0 } })
+    storage.get({ key: 'bestScore', success: function(d) { self.bestScore = parseInt(d) || 0 } })
+    storage.get({ key: 'bestHpScore', success: function(d) { self.bestHpScore = parseInt(d) || 0 } })
+    this.buildBricks()
+    this.resetBall()
+    if (this.level === 2) this.hp = 3
+    this.startGame()
+  },
+
+  updateModeFlags() {
+    this.isI1 = this.level === 1
+    this.isHp = this.level === 2
+    this.isExt = this.level === 3
+    this.isBr = this.level === 4
+  },
+
+  onReady() {},
+
+  startGame() {
+    var self = this
+    if (this.controlMode === 0) {
+      sensor.subscribeAccelerometer({
+        interval: 'game',
+        callback: function(ret) { self.sensorX = ret.x }
+      })
+    }
+    this.timer = setInterval(function () {
+      if (self.state === 0) {
+        self.tick()
+        self.gameTime = Math.floor(self.gameTime * 10 + 1) / 10
+      }
+    }, 35)
+  },
+
+  onDestroy() {
+    if (this.timer) { clearInterval(this.timer); this.timer = null }
+    try { sensor.unsubscribeAccelerometer() } catch (e) {}
+  },
+
+  buildBricks() {
+    var rows = Math.min(2 + this.level, 5)
+    var cols = 5
+    var totalW = cols * this.bw + (cols - 1) * this.bpad
+    var startX = Math.floor((this.fieldW - totalW) / 2)
+    var startY = 232
+    var idx = 0
+    var normalColors = ['#ff8800','#ffcc00','#3399ff','#cc33ff']
+    for (var r = 0; r < rows; r++) {
+      for (var c = 0; c < cols; c++) {
+        if (idx >= 20) break
+        this['b' + idx + 'x'] = startX + c * (this.bw + this.bpad)
+        this['b' + idx + 'y'] = startY + r * (this.bh + this.bpad)
+        this['b' + idx + 'a'] = true
+        if (this.level === 2) {
+          this['b' + idx + 'c'] = '#ffcc00'
+        } else {
+          this['b' + idx + 'c'] = normalColors[(r + c) % normalColors.length]
+        }
+        idx++
+      }
+      if (idx >= 20) break
+    }
+    for (var i = idx; i < 20; i++) {
+      this['b' + i + 'a'] = false
+      this['b' + i + 'x'] = -999
+      this['b' + i + 'y'] = -999
+      this['b' + i + 'c'] = '#333333'
+    }
+    if (this.level === 2) this.assignHealthBricks()
+  },
+
+  assignHealthBricks() {
+    var alive = []
+    for (var i = 0; i < 20; i++) {
+      if (this['b' + i + 'a']) alive.push(i)
+    }
+    var total = alive.length
+    for (var j = 0; j < total; j++) {
+      this['b' + alive[j] + 'c'] = '#ffcc00'
+    }
+    var redCount = Math.min(4, Math.floor(total * 0.2))
+    var greenCount = Math.min(3, Math.floor(total * 0.15))
+    var blueCount = Math.min(3, Math.floor(total * 0.15))
+    var idx = 0
+    var placed = 0
+    var redPlaced = 0
+    while (placed < total && redPlaced < redCount) {
+      this['b' + alive[placed] + 'c'] = '#ff3333'
+      placed++
+      redPlaced++
+    }
+    var greenPlaced = 0
+    while (placed < total && greenPlaced < greenCount) {
+      this['b' + alive[placed] + 'c'] = '#33cc33'
+      placed++
+      greenPlaced++
+    }
+    var bluePlaced = 0
+    while (placed < total && bluePlaced < blueCount) {
+      this['b' + alive[placed] + 'c'] = '#3396ff'
+      placed++
+      bluePlaced++
+    }
+  },
+
+  resetBall() {
+    this.pw = 100
+    this.px = Math.floor((this.fieldW - this.pw) / 2)
+    this.py = this.playB - 30
+    this.bx = Math.floor(this.fieldW / 2 - this.ballS / 2)
+    this.by = this.py - 30
+    if (this.level === 3) {
+      var spd3 = 3 + 0.5
+      this.bvx = spd3
+      this.bvy = -spd3
+    } else {
+      var spd = 2 + (this.level - 1) * 0.5
+      this.bvx = spd
+      this.bvy = -spd
+    }
+    this.score = 0
+    this.state = 0
+    this.over = false
+    this.win = false
+    this.filteredX = 0
+    this.swipeVel = 0
+    this.gameTime = 0
+    this.calories = 0
+    this.blueCount = 0
+    for (var s = 0; s < 10; s++) {
+      this['l' + s + 'a'] = false
+      this['l' + s + 'x'] = -999
+      this['l' + s + 'y'] = -999
+      this['l' + s + 'vx'] = 0
+      this['l' + s + 'vy'] = 0
+    }
+  },
+
+  spawnBlueBall(cx, cy) {
+    if (this.blueCount >= 10) return
+    var slot = -1
+    for (var s = 0; s < 10; s++) {
+      if (!this['l' + s + 'a']) { slot = s; break }
+    }
+    if (slot < 0) return
+    var spd = Math.sqrt(this.bvx * this.bvx + this.bvy * this.bvy)
+    if (spd < 0.1) spd = 2.5
+    var ang = Math.PI * (1 + Math.random())
+    this['l' + slot + 'a'] = true
+    this['l' + slot + 'x'] = cx - this.ballS / 2
+    this['l' + slot + 'y'] = cy - this.ballS / 2
+    this['l' + slot + 'vx'] = Math.cos(ang) * spd
+    this['l' + slot + 'vy'] = Math.sin(ang) * spd
+    this.blueCount++
+  },
+
+  respawnBall() {
+    this.bx = Math.floor(this.fieldW / 2 - this.ballS / 2)
+    this.by = this.py - 30
+    var spd = 2 + (this.level - 1) * 0.5
+    this.bvx = spd * (Math.random() < 0.5 ? -1 : 1)
+    this.bvy = -spd
+  },
+
+  aimAtBrick(bx, by, vx, vy) {
+    var alive = []
+    var totalA = Math.min((2 + this.level) * 5, 20)
+    for (var i = 0; i < totalA; i++) {
+      if (this['b' + i + 'a']) alive.push(i)
+    }
+    if (alive.length === 0 || alive.length > 3) return { vx: vx, vy: vy }
+    var target = alive[Math.floor(Math.random() * alive.length)]
+    var dx = this['b' + target + 'x'] + this.bw / 2 - (bx + this.ballS / 2)
+    var dy = this['b' + target + 'y'] + this.bh / 2 - (by + this.ballS / 2)
+    var len = Math.sqrt(dx * dx + dy * dy)
+    if (len < 1) return { vx: vx, vy: vy }
+    var spd = Math.sqrt(vx * vx + vy * vy)
+    if (spd < 0.1) spd = 2
+    var mix = 0.55
+    if (alive.length === 2) mix = 0.4
+    if (alive.length === 3) mix = 0.22
+    var nx = vx * (1 - mix) + (dx / len) * spd * mix
+    var ny = vy * (1 - mix) + (dy / len) * spd * mix
+    var ns = Math.sqrt(nx * nx + ny * ny)
+    if (ns < 0.1) ns = 1
+    return { vx: nx / ns * spd, vy: ny / ns * spd }
+  },
+
+  tick() {
+    if (this.level === 3) {
+      if (this.controlMode === 0) {
+        var rawX3 = this.sensorX
+        this.filteredX = this.filteredX * 0.7 + rawX3 * 0.3
+        var DEAD3 = 0.5
+        var tilt3 = this.filteredX
+        if (tilt3 > -DEAD3 && tilt3 < DEAD3) tilt3 = 0
+        this.px -= tilt3 * 0.7
+      }
+      if (this.swipeVel !== 0) {
+        this.px += this.swipeVel
+        this.swipeVel *= 0.9
+        if (Math.abs(this.swipeVel) < 0.5) this.swipeVel = 0
+      }
+    } else {
+      if (this.controlMode === 0) {
+        var rawX = this.sensorX
+        this.filteredX = this.filteredX * 0.7 + rawX * 0.3
+        var DEAD = 0.5
+        var tilt = this.filteredX
+        if (tilt > -DEAD && tilt < DEAD) tilt = 0
+        this.px -= tilt * 0.6
+      }
+      if (this.swipeVel !== 0) {
+        this.px += this.swipeVel
+        this.swipeVel *= 0.9
+        if (Math.abs(this.swipeVel) < 0.5) this.swipeVel = 0
+      }
+    }
+    if (this.px < this.playL) this.px = this.playL
+    if (this.px > this.playR - this.pw) this.px = this.playR - this.pw
+
+    this.bx += this.bvx
+    this.by += this.bvy
+
+    if (this.bx <= this.playL) { this.bx = this.playL; this.bvx = Math.abs(this.bvx) }
+    if (this.bx + this.ballS >= this.playR) { this.bx = this.playR - this.ballS; this.bvx = -Math.abs(this.bvx) }
+    if (this.by <= this.playT) { this.by = this.playT; this.bvy = Math.abs(this.bvy) }
+
+    if (this.bvy > 0 &&
+        this.by + this.ballS >= this.py &&
+        this.by + this.ballS <= this.py + this.ph + 4 &&
+        this.bx + this.ballS >= this.px &&
+        this.bx <= this.px + this.pw) {
+      this.by = this.py - this.ballS
+      this.bvy = -Math.abs(this.bvy)
+      var hit = (this.bx + this.ballS / 2 - this.px) / this.pw
+      if (this.level === 3) {
+        this.bvx = (hit - 0.5) * 6
+        if (this.bvx > 0 && this.bvx < 1.5) this.bvx = 1.5
+        if (this.bvx < 0 && this.bvx > -1.5) this.bvx = -1.5
+      } else {
+        this.bvx = (hit - 0.5) * 4
+        if (this.bvx > 0 && this.bvx < 1) this.bvx = 1
+        if (this.bvx < 0 && this.bvx > -1) this.bvx = -1
+      }
+    }
+
+    var hitIdx = -1
+    var total = Math.min((2 + this.level) * 5, 20)
+    for (var i = 0; i < total; i++) {
+      if (!this['b' + i + 'a']) continue
+      var bkx = this['b' + i + 'x']
+      var bky = this['b' + i + 'y']
+      var overlapX = Math.min(this.bx + this.ballS - bkx, bkx + this.bw - this.bx)
+      var overlapY = Math.min(this.by + this.ballS - bky, bky + this.bh - this.by)
+      if (overlapX > 0 && overlapY > 0) {
+        hitIdx = i
+        if (overlapX < overlapY) {
+          this.bvx = -this.bvx
+        } else {
+          this.bvy = -this.bvy
+        }
+        if (this.level === 2 && this['b' + i + 'c'] === '#ff3333') {
+          this.hp--
+          if (this.hp <= 0) { this.state = 1; this.over = true; this.calcRank(); return }
+        } else if (this.level === 2 && this['b' + i + 'c'] === '#33cc33') {
+          if (this.hp < 5) this.hp++
+        } else {
+          this.score += 10
+          if (this.level === 4) {
+            this.spawnBlueBall(this['b' + i + 'x'] + this.bw / 2, this['b' + i + 'y'] + this.bh / 2)
+          }
+        }
+        break
+      }
+    }
+    if (hitIdx >= 0) {
+      this['b' + hitIdx + 'a'] = false
+      this['b' + hitIdx + 'x'] = -999
+      this['b' + hitIdx + 'y'] = -999
+    }
+
+    for (var s = 0; s < 10; s++) {
+      if (!this['l' + s + 'a']) continue
+      var lx = this['l' + s + 'x'] + this['l' + s + 'vx']
+      var ly = this['l' + s + 'y'] + this['l' + s + 'vy']
+      this['l' + s + 'x'] = lx
+      this['l' + s + 'y'] = ly
+      if (lx <= this.playL) { this['l' + s + 'x'] = this.playL; this['l' + s + 'vx'] = Math.abs(this['l' + s + 'vx']) }
+      if (lx + this.ballS >= this.playR) { this['l' + s + 'x'] = this.playR - this.ballS; this['l' + s + 'vx'] = -Math.abs(this['l' + s + 'vx']) }
+      if (ly <= this.playT) { this['l' + s + 'y'] = this.playT; this['l' + s + 'vy'] = Math.abs(this['l' + s + 'vy']) }
+      if (this['l' + s + 'vy'] > 0 &&
+          ly + this.ballS >= this.py &&
+          ly + this.ballS <= this.py + this.ph + 4 &&
+          lx + this.ballS >= this.px &&
+          lx <= this.px + this.pw) {
+        this['l' + s + 'y'] = this.py - this.ballS
+        this['l' + s + 'vy'] = -Math.abs(this['l' + s + 'vy'])
+        var lhit = (lx + this.ballS / 2 - this.px) / this.pw
+        this['l' + s + 'vx'] = (lhit - 0.5) * 4
+        if (this['l' + s + 'vx'] > 0 && this['l' + s + 'vx'] < 1) this['l' + s + 'vx'] = 1
+        if (this['l' + s + 'vx'] < 0 && this['l' + s + 'vx'] > -1) this['l' + s + 'vx'] = -1
+      }
+      var lhitIdx = -1
+      var totalL = Math.min((2 + this.level) * 5, 20)
+      for (var i2 = 0; i2 < totalL; i2++) {
+        if (!this['b' + i2 + 'a']) continue
+        var bx2 = this['b' + i2 + 'x']
+        var by2 = this['b' + i2 + 'y']
+        var ox = Math.min(lx + this.ballS - bx2, bx2 + this.bw - lx)
+        var oy = Math.min(ly + this.ballS - by2, by2 + this.bh - ly)
+        if (ox > 0 && oy > 0) {
+          lhitIdx = i2
+          if (ox < oy) {
+            this['l' + s + 'vx'] = -this['l' + s + 'vx']
+          } else {
+            this['l' + s + 'vy'] = -this['l' + s + 'vy']
+          }
+          this.score += 5
+          break
+        }
+      }
+      if (lhitIdx >= 0) {
+        this['b' + lhitIdx + 'a'] = false
+        this['b' + lhitIdx + 'x'] = -999
+        this['b' + lhitIdx + 'y'] = -999
+      }
+      var aimL = this.aimAtBrick(this['l' + s + 'x'], this['l' + s + 'y'], this['l' + s + 'vx'], this['l' + s + 'vy'])
+      this['l' + s + 'vx'] = aimL.vx
+      this['l' + s + 'vy'] = aimL.vy
+      if (this['l' + s + 'y'] + this.ballS > this.playB) {
+        this['l' + s + 'a'] = false
+        this.blueCount--
+      }
+    }
+
+    var aimM = this.aimAtBrick(this.bx, this.by, this.bvx, this.bvy)
+    this.bvx = aimM.vx
+    this.bvy = aimM.vy
+
+    var aliveCount = 0
+    for (var j = 0; j < 20; j++) {
+      if (this['b' + j + 'a']) aliveCount++
+    }
+
+    if (this.by + this.ballS > this.playB) {
+      if (this.level === 2) {
+        this.hp--
+        if (this.hp <= 0) {
+          this.state = 1
+          this.over = true
+          this.calcRank()
+          this.saveBestHpScore()
+        } else {
+          this.respawnBall()
+        }
+        return
+      }
+      this.state = 1
+      this.over = true
+      this.calcRank()
+      if (this.level === 3) this.saveBestScore()
+      return
+    }
+    if (aliveCount <= 0) {
+      this.state = 2
+      this.win = true
+      this.calcRank()
+      if (this.level === 1) this.saveBestTime()
+      if (this.level === 2) this.saveBestHpScore()
+      if (this.level === 3) this.saveBestScore()
+      return
+    }
+  },
+
+  calcRank() {
+    this.calories = Math.floor(this.gameTime / 60 * 0.85 * 10) / 10
+    if (this.level === 1) {
+      var t = this.gameTime
+      if (t <= 30) this.timeRank = '已经超越99%玩家'
+      else if (t <= 60) this.timeRank = '已经超越80%玩家'
+      else if (t <= 90) this.timeRank = '已经超越60%玩家'
+      else if (t <= 120) this.timeRank = '已经超越40%玩家'
+      else this.timeRank = '已经超越20%玩家'
+    }
+    if (this.level === 3) {
+      var s = this.score
+      if (s >= 200) this.scoreRank = '已经超越99%玩家'
+      else if (s >= 150) this.scoreRank = '已经超越80%玩家'
+      else if (s >= 100) this.scoreRank = '已经超越60%玩家'
+      else if (s >= 50) this.scoreRank = '已经超越40%玩家'
+      else this.scoreRank = '已经超越20%玩家'
+    }
+  },
+
+  saveBestTime() {
+    if (this.bestTime === 0 || this.gameTime < this.bestTime) {
+      this.bestTime = Math.floor(this.gameTime)
+      storage.set({ key: 'bestTime', data: String(this.bestTime) })
+    }
+  },
+
+  saveBestScore() {
+    if (this.score > this.bestScore) {
+      this.bestScore = this.score
+      storage.set({ key: 'bestScore', data: String(this.bestScore) })
+    }
+  },
+
+  saveBestHpScore() {
+    if (this.score > this.bestHpScore) {
+      this.bestHpScore = this.score
+      storage.set({ key: 'bestHpScore', data: String(this.bestHpScore) })
+    }
+  },
+
+  onSwipe(e) {
+    if (this.state !== 0) { this.afterGame(); return }
+    if (this.level === 3) {
+      if (e.direction === 'left') this.swipeVel = -11
+      else if (e.direction === 'right') this.swipeVel = 11
+    } else {
+      if (e.direction === 'left') this.swipeVel = -9.5
+      else if (e.direction === 'right') this.swipeVel = 9.5
+    }
+  },
+
+  onMaskClick() { this.afterGame() },
+
+  afterGame() {
+    if (this.state === 1) {
+      if (this.level === 2) this.hp = 3
+      this.buildBricks()
+      this.resetBall()
+    } else if (this.state === 2) {
+      if (this.level < 3) {
+        this.level++
+        this.updateModeFlags()
+        this.buildBricks()
+        this.resetBall()
+        if (this.level === 2) this.hp = 3
+      } else {
+        router.push({ uri: '/pages/index' })
+      }
+    }
+  }
+}
+</script>
+
+<style>
+.page {
+  width: 480px;
+  height: 480px;
+  background-color: #000000;
+}
+
+.field {
+  position: relative;
+  width: 480px;
+  height: 480px;
+}
+
+.info-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 480px;
+  height: 60px;
+  background-color: rgba(20,20,20,0.9);
+  flex-direction: column;
+  justify-content: center;
+  z-index: 8;
+}
+
+.info-item {
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.info-text {
+  font-size: 20px;
+  color: #ffffff;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+@media screen and (shape: circle) {
+  .info-bar {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+}
+
+.brick {
+  position: absolute;
+  width: 52px;
+  height: 18px;
+  border-radius: 4px;
+}
+
+.paddle {
+  position: absolute;
+  width: 100px;
+  height: 12px;
+  border-radius: 6px;
+  background-color: #00ccff;
+}
+
+.ball {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  border-radius: 11px;
+  background-color: #ffff00;
+}
+
+.ball-white {
+  background-color: #ffffff;
+}
+
+.ball-blue {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  border-radius: 11px;
+  background-color: #3399ff;
+}
+
+.mask {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 480px;
+  height: 480px;
+  background-color: rgba(0,0,0,0.85);
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+
+.msg {
+  font-size: 36px;
+  color: #ffffff;
+  margin-bottom: 16px;
+}
+
+.hint {
+  font-size: 20px;
+  color: #ffcc00;
+  margin-bottom: 10px;
+}
+
+.hint2 {
+  font-size: 16px;
+  color: #888888;
+}
+</style>

@@ -1,0 +1,43 @@
+{
+  "package": "com.xiaohan.breakout.demo",
+  "name": "小涵打砖块(展示版)",
+  "versionName": "1.0.0",
+  "versionCode": 1,
+  "minPlatformVersion": 1000,
+  "icon": "/common/logo.png",
+  "deviceTypeList": [
+    "watch"
+  ],
+  "features": [
+    {
+      "name": "system.router"
+    },
+    {
+      "name": "system.sensor"
+    },
+    {
+      "name": "system.storage"
+    }
+  ],
+  "config": {
+    "logLevel": "log",
+    "designWidth": 480
+  },
+  "router": {
+    "entry": "pages/index",
+    "pages": {
+      "pages/index": {
+        "component": "index"
+      },
+      "pages/level": {
+        "component": "level"
+      },
+      "pages/game": {
+        "component": "game"
+      },
+      "pages/record": {
+        "component": "record"
+      }
+    }
+  }
+}
