@@ -1,14 +1,15 @@
 <template>
   <div class="page" onswipe="onSwipe">
-    <text class="title">小涵打砖块</text>
-    <text class="sub">小涵游戏开发</text>
-    <div class="btn" onclick="go">
+<text class="title" style="opacity:{{ oTitle }}">小涵打砖块</text>
+    <div class="title-accent" style="opacity:{{ oAccent }}"></div>
+    <text class="sub" style="opacity:{{ oSub }}">小涵游戏开发</text>
+    <div class="btn" style="opacity:{{ oBtn1 }}" onclick="go">
       <text class="btn-text">开始游戏</text>
     </div>
-    <div class="btn2" onclick="goRecords">
-      <text class="btn2-text">最高记录</text>
+    <div class="btn2" style="opacity:{{ oBtn2 }}" onclick="goRecords">
+      <text class="btn2-text">更多数据</text>
     </div>
-    <div class="btn3" onclick="showSettings">
+    <div class="btn3" style="opacity:{{ oBtn3 }}" onclick="showSettings">
       <text class="btn3-text">设置</text>
     </div>
 
@@ -16,11 +17,15 @@
       <div class="panel-box" onclick="stopProp">
         <text class="panel-title">操控方式</text>
         <div class="opt" onclick="setGyro">
-          <text class="opt-text {{ controlMode === 0 ? 'opt-active' : '' }}">陀螺仪</text>
+          <text class="opt-text {{ controlMode === 0 ? 'opt-active' : '' }}">体感操控优先</text>
         </div>
         <div class="opt" onclick="setTouch">
-          <text class="opt-text {{ controlMode === 1 ? 'opt-active' : '' }}">触控滑动</text>
+          <text class="opt-text {{ controlMode === 1 ? 'opt-active' : '' }}">仅滑动操控</text>
         </div>
+        <div class="opt" onclick="calibrate">
+          <text class="opt-text">体感校准</text>
+        </div>
+        <text class="calib-msg" if="{{ calibMsg !== '' }}">{{ calibMsg }}</text>
         <div class="close-btn" onclick="hidePanel">
           <text class="close-text">关闭</text>
         </div>
@@ -32,11 +37,21 @@
 <script>
 import router from "@system.router"
 import storage from "@system.storage"
+import sensor from "@system.sensor"
+import prompt from "@system.prompt"
+import { setBaseX } from "../../util/calib"
 
 export default {
   private: {
     controlMode: 0,
-    showPanel: false
+    showPanel: false,
+    calibMsg: '',
+    oTitle: 0,
+    oAccent: 0,
+    oSub: 0,
+    oBtn1: 0,
+    oBtn2: 0,
+    oBtn3: 0
   },
 
   onInit() {
@@ -47,6 +62,32 @@ export default {
         self.controlMode = parseInt(data) || 0
       }
     })
+    this.introFade()
+    setTimeout(function() {
+      self.oTitle = 1; self.oAccent = 1; self.oSub = 1
+      self.oBtn1 = 1; self.oBtn2 = 1; self.oBtn3 = 1
+    }, 800)
+  },
+
+  introFade() {
+    var self = this
+    var seq = [['oTitle', 0], ['oAccent', 70], ['oSub', 140], ['oBtn1', 210], ['oBtn2', 280], ['oBtn3', 350]]
+    for (var i = 0; i < seq.length; i++) {
+      (function(k, delay) {
+        setTimeout(function() { self.fadeIn(k) }, delay)
+      })(seq[i][0], seq[i][1])
+    }
+  },
+
+  fadeIn(key) {
+    var self = this
+    var step = function() {
+      var v = self[key] + 0.2
+      if (v >= 1) { self[key] = 1; return }
+      self[key] = v
+      setTimeout(step, 30)
+    }
+    step()
   },
 
   go() {
@@ -84,6 +125,38 @@ export default {
   setTouch() {
     this.controlMode = 1
     storage.set({ key: 'controlMode', data: '1' })
+  },
+
+  calibrate() {
+    var self = this
+    if (self._calibrating) return
+    self._calibrating = true
+    self._calibSum = 0
+    self._calibN = 0
+    try {
+      sensor.subscribeAccelerometer({
+        interval: 'game',
+        callback: function(ret) {
+          self._calibSum += ret.x
+          self._calibN++
+        }
+      })
+    } catch (e) {
+      self._calibrating = false
+      return
+    }
+    setTimeout(function() {
+      try { sensor.unsubscribeAccelerometer() } catch (e) {}
+      self._calibrating = false
+      if (self._calibN > 0) {
+        setBaseX(self._calibSum / self._calibN)
+        self.calibMsg = '体感校准完成'
+        try { prompt.showToast({ message: '体感校准完成' }) } catch (e) {}
+      } else {
+        self.calibMsg = '校准失败，请重试'
+      }
+      setTimeout(function() { self.calibMsg = '' }, 2000)
+    }, 400)
   }
 }
 </script>
@@ -100,58 +173,72 @@ export default {
 
 .title {
   font-size: 48px;
-  color: #ffffff;
-  margin-bottom: 10px;
+  color: #f2f2f7;
+  margin-bottom: 6px;
+}
+
+.title-accent {
+  width: 48px;
+  height: 4px;
+  border-radius: 2px;
+  background-color: #ffcc00;
+  margin-bottom: 12px;
 }
 
 .sub {
-  font-size: 24px;
-  color: #666666;
-  margin-bottom: 50px;
+  font-size: 22px;
+  color: #8e8e93;
+  margin-bottom: 44px;
 }
 
 .btn {
-  width: 240px;
+  width: 260px;
   height: 76px;
   border-radius: 38px;
-  background-color: #1e90ff;
+  background-color: #22c1e8;
   justify-content: center;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 }
 
 .btn-text {
   font-size: 32px;
-  color: #ffffff;
+  color: #04222c;
 }
 
 .btn2 {
-  width: 240px;
-  height: 56px;
-  border-radius: 28px;
-  background-color: #333333;
+  width: 260px;
+  height: 58px;
+  border-radius: 29px;
+  background-color: #14141c;
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgba(255,255,255,0.12);
   justify-content: center;
   align-items: center;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 
 .btn2-text {
-  font-size: 26px;
-  color: #cccccc;
+  font-size: 25px;
+  color: #f2f2f7;
 }
 
 .btn3 {
-  width: 240px;
-  height: 56px;
-  border-radius: 28px;
-  background-color: #2a2a3e;
+  width: 260px;
+  height: 58px;
+  border-radius: 29px;
+  background-color: #14141c;
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgba(255,255,255,0.12);
   justify-content: center;
   align-items: center;
 }
 
 .btn3-text {
-  font-size: 26px;
-  color: #cccccc;
+  font-size: 25px;
+  color: #f2f2f7;
 }
 
 .panel {
@@ -160,7 +247,7 @@ export default {
   top: 0;
   width: 480px;
   height: 480px;
-  background-color: rgba(0,0,0,0.85);
+  background-color: rgba(0,0,0,0.7);
   justify-content: center;
   align-items: center;
   z-index: 20;
@@ -168,8 +255,11 @@ export default {
 
 .panel-box {
   width: 340px;
-  background-color: #1a1a2e;
-  border-radius: 20px;
+  background-color: #14141c;
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgba(255,255,255,0.1);
+  border-radius: 28px;
   flex-direction: column;
   align-items: center;
   padding-top: 30px;
@@ -178,7 +268,7 @@ export default {
 
 .panel-title {
   font-size: 28px;
-  color: #ffffff;
+  color: #f2f2f7;
   margin-bottom: 24px;
 }
 
@@ -186,7 +276,10 @@ export default {
   width: 260px;
   height: 56px;
   border-radius: 28px;
-  background-color: #2a2a3e;
+  background-color: rgba(255,255,255,0.06);
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgba(255,255,255,0.08);
   justify-content: center;
   align-items: center;
   margin-bottom: 14px;
@@ -194,18 +287,24 @@ export default {
 
 .opt-text {
   font-size: 24px;
-  color: #888888;
+  color: #8e8e93;
 }
 
 .opt-active {
-  color: #00ccff;
+  color: #22c1e8;
+}
+
+.calib-msg {
+  font-size: 18px;
+  color: #22c1e8;
+  margin-bottom: 10px;
 }
 
 .close-btn {
   width: 260px;
   height: 50px;
   border-radius: 25px;
-  background-color: #444444;
+  background-color: rgba(255,255,255,0.1);
   justify-content: center;
   align-items: center;
   margin-top: 10px;
@@ -213,6 +312,6 @@ export default {
 
 .close-text {
   font-size: 22px;
-  color: #ffffff;
+  color: #f2f2f7;
 }
 </style>

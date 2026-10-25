@@ -2,21 +2,25 @@
   <div class="page" onswipe="onSwipe">
     <text class="title">选择模式</text>
     <div class="list">
-      <div class="lv" onclick="go(1)">
-        <text class="lv-text">挑战模式</text>
-        <text class="lv-sub" if="{{ bestTime > 0 }}">最佳时间: {{ bestTime }}秒</text>
-      </div>
-      <div class="lv" onclick="go(2)">
-        <text class="lv-text">血量模式</text>
-        <text class="lv-sub">生命与砖块</text>
-      </div>
-      <div class="lv" onclick="go(3)">
-        <text class="lv-text">极限模式</text>
-        <text class="lv-sub" if="{{ bestScore > 0 }}">最高分: {{ bestScore }}分</text>
-      </div>
-      <div class="lv" onclick="go(4)">
+      <div class="lv lv1" onclick="go(1)">
         <text class="lv-text">繁殖模式</text>
-        <text class="lv-sub">蓝球风暴</text>
+        <text class="lv-sub" if="{{ bestBrTime > 0 }}">最佳时间: {{ bestBrTime }}秒</text>
+        <text class="lv-sub" if="{{ bestBrTime === 0 }}">蓝球风暴</text>
+      </div>
+      <div class="lv lv2" onclick="go(2)">
+        <text class="lv-text">极限模式</text>
+        <text class="lv-sub" if="{{ bestExtTime > 0 }}">最佳时间: {{ bestExtTime }}秒</text>
+        <text class="lv-sub" if="{{ bestExtTime === 0 }}">极速弹球</text>
+      </div>
+      <div class="lv lv3" onclick="go(3)">
+        <text class="lv-text">血量模式</text>
+        <text class="lv-sub" if="{{ bestHp > 0 }}">最高分: {{ bestHp }}分</text>
+        <text class="lv-sub" if="{{ bestHp === 0 }}">生命与砖块</text>
+      </div>
+      <div class="lv lv4" onclick="go(4)">
+        <text class="lv-text">狂野模式</text>
+        <text class="lv-sub" if="{{ bestWild > 0 }}">最佳时间: {{ bestWild }}秒</text>
+        <text class="lv-sub" if="{{ bestWild === 0 }}">移动砖来袭</text>
       </div>
     </div>
   </div>
@@ -24,32 +28,32 @@
 
 <script>
 import router from "@system.router"
-import storage from "@system.storage"
+import { loadStats } from "../../util/stats"
 
 export default {
   protected: {
     controlMode: 0
   },
   private: {
-    bestTime: 0,
-    bestScore: 0
+    bestBrTime: 0,
+    bestExtTime: 0,
+    bestHp: 0,
+    bestWild: 0
   },
 
   onInit() {
     var self = this
     this.controlMode = parseInt(this.controlMode) || 0
-    storage.get({
-      key: 'bestTime',
-      success: function(data) { self.bestTime = parseInt(data) || 0 }
-    })
-    storage.get({
-      key: 'bestScore',
-      success: function(data) { self.bestScore = parseInt(data) || 0 }
+    loadStats(function(s) {
+      self.bestBrTime = s.bestBrTime
+      self.bestExtTime = s.bestExtTime
+      self.bestHp = s.bestHp
+      self.bestWild = s.bestWild
     })
   },
 
   go(level) {
-    router.push({
+    router.replace({
       uri: "/pages/game",
       params: { level: level, controlMode: this.controlMode }
     })
@@ -75,7 +79,7 @@ export default {
 
 .title {
   font-size: 34px;
-  color: #ffffff;
+  color: #f2f2f7;
   margin-bottom: 30px;
 }
 
@@ -85,24 +89,42 @@ export default {
 }
 
 .lv {
-  width: 280px;
-  height: 72px;
-  border-radius: 36px;
-  background-color: #1a1a2e;
+  width: 300px;
+  height: 74px;
+  border-radius: 32px;
+  background-color: #14141c;
+  border-left-width: 5px;
+  border-left-style: solid;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
+}
+
+.lv1 {
+  border-left-color: #b987ff;
+}
+
+.lv2 {
+  border-left-color: #ffcc00;
+}
+
+.lv3 {
+  border-left-color: #ff6b6b;
+}
+
+.lv4 {
+  border-left-color: #22c1e8;
 }
 
 .lv-text {
-  font-size: 28px;
-  color: #ffffff;
+  font-size: 27px;
+  color: #f2f2f7;
 }
 
 .lv-sub {
-  font-size: 16px;
-  color: #888888;
-  margin-top: 4px;
+  font-size: 15px;
+  color: #8e8e93;
+  margin-top: 3px;
 }
 </style>

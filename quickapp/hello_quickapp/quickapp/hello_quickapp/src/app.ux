@@ -1,0 +1,8 @@
+<script>
+export default {
+  onCreate() {},
+  onDestroy() {
+    console.log("app destroyed")
+  }
+}
+</script>

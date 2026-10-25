@@ -1,56 +1,108 @@
 <template>
   <div class="page" onswipe="onSwipe">
-    <text class="title">最高记录</text>
-    <div class="list">
+    <text class="title">{{ page === 1 ? '最高记录' : '累计数据' }}</text>
+
+    <div class="list" if="{{ page === 1 }}">
       <div class="row">
-        <text class="row-label">挑战模式</text>
-        <text class="row-value" if="{{ bestTime > 0 }}">用时{{ bestTime }}秒</text>
-        <text class="row-value" if="{{ bestTime === 0 }}">暂无</text>
-      </div>
-      <div class="row">
-        <text class="row-label">血量模式</text>
-        <text class="row-value" if="{{ bestHpScore > 0 }}">{{ bestHpScore }}分</text>
-        <text class="row-value" if="{{ bestHpScore === 0 }}">暂无</text>
+        <text class="row-label">繁殖模式</text>
+        <text class="row-value" if="{{ bestBrTime > 0 }}">用时{{ bestBrTime }}秒</text>
+        <text class="row-value" if="{{ bestBrTime === 0 }}">暂无</text>
       </div>
       <div class="row">
         <text class="row-label">极限模式</text>
-        <text class="row-value" if="{{ bestScore > 0 }}">{{ bestScore }}分</text>
-        <text class="row-value" if="{{ bestScore === 0 }}">暂无</text>
+        <text class="row-value" if="{{ bestExtTime > 0 }}">用时{{ bestExtTime }}秒</text>
+        <text class="row-value" if="{{ bestExtTime === 0 }}">暂无</text>
       </div>
+      <div class="row">
+        <text class="row-label">血量模式</text>
+        <text class="row-value" if="{{ bestHp > 0 }}">{{ bestHp }}分</text>
+        <text class="row-value" if="{{ bestHp === 0 }}">暂无</text>
+      </div>
+      <div class="row">
+        <text class="row-label">狂野模式</text>
+        <text class="row-value" if="{{ bestWild > 0 }}">用时{{ bestWild }}秒</text>
+        <text class="row-value" if="{{ bestWild === 0 }}">暂无</text>
+      </div>
+    </div>
+
+    <div class="list" if="{{ page === 2 }}">
+      <div class="row">
+        <text class="row-label">累计摆动次数</text>
+        <text class="row-value">{{ totalSwings }}次</text>
+      </div>
+      <div class="row">
+        <text class="row-label">累计运动时长</text>
+        <text class="row-value">{{ totalPlaySec }}秒</text>
+      </div>
+      <div class="row">
+        <text class="row-label">累计消耗热量</text>
+        <text class="row-value">{{ totalCalStr }}</text>
+      </div>
+    </div>
+
+    <div class="dots">
+      <div class="dot {{ page === 1 ? 'dot-on' : '' }}"></div>
+      <div class="dot {{ page === 2 ? 'dot-on' : '' }}"></div>
     </div>
   </div>
 </template>
 
 <script>
 import router from "@system.router"
-import storage from "@system.storage"
+import { loadStats } from "../../util/stats"
+
+function formatJ(v) {
+  if (v < 1000) return Math.round(v) + '焦'
+  if (v < 10000) return (v / 1000).toFixed(1) + '千焦'
+  if (v < 100000) return (v / 10000).toFixed(2) + '万焦'
+  if (v < 1000000) return (v / 100000).toFixed(2) + '十万焦'
+  return (v / 1000000).toFixed(2) + '百万焦'
+}
 
 export default {
   private: {
-    bestTime: 0,
-    bestHpScore: 0,
-    bestScore: 0
+    page: 1,
+    bestBrTime: 0,
+    bestExtTime: 0,
+    bestHp: 0,
+    bestWild: 0,
+    totalSwings: 0,
+    totalPlaySec: 0,
+    totalCal: 0,
+    totalCalStr: '0焦'
   },
 
   onInit() {
+    this.refresh()
+  },
+
+  onShow() {
+    this.refresh()
+  },
+
+  refresh() {
     var self = this
-    storage.get({
-      key: 'bestTime',
-      success: function(data) { self.bestTime = parseInt(data) || 0 }
-    })
-    storage.get({
-      key: 'bestHpScore',
-      success: function(data) { self.bestHpScore = parseInt(data) || 0 }
-    })
-    storage.get({
-      key: 'bestScore',
-      success: function(data) { self.bestScore = parseInt(data) || 0 }
+    loadStats(function(s) {
+      self.bestBrTime = s.bestBrTime
+      self.bestExtTime = s.bestExtTime
+      self.bestHp = s.bestHp
+      self.bestWild = s.bestWild
+      self.totalSwings = s.totalSwings
+      self.totalPlaySec = Math.floor(s.totalPlay)
+      self.totalCal = s.totalCal
+      self.totalCalStr = formatJ(s.totalCal * 4184)
     })
   },
 
   onSwipe(e) {
-    if (e.direction === 'right') {
-      router.back()
+    if (e.direction === 'left' && this.page === 1) {
+      this.page = 2
+    } else if (e.direction === 'right') {
+      if (this.page === 2) {
+        this.page = 1
+      } else {
+        router.back()
+      }
     }
   }
 }
@@ -68,8 +120,8 @@ export default {
 
 .title {
   font-size: 34px;
-  color: #ffffff;
-  margin-bottom: 30px;
+  color: #f2f2f7;
+  margin-bottom: 26px;
 }
 
 .list {
@@ -78,25 +130,46 @@ export default {
 }
 
 .row {
-  width: 300px;
+  width: 320px;
   height: 64px;
-  border-radius: 32px;
-  background-color: #1a1a2e;
+  border-radius: 22px;
+  background-color: #14141c;
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgba(255,255,255,0.08);
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
   padding-left: 24px;
   padding-right: 24px;
-  margin-bottom: 14px;
+  margin-bottom: 12px;
 }
 
 .row-label {
-  font-size: 24px;
-  color: #ffffff;
+  font-size: 22px;
+  color: #f2f2f7;
 }
 
 .row-value {
-  font-size: 24px;
+  font-size: 22px;
   color: #ffcc00;
+}
+
+.dots {
+  flex-direction: row;
+  margin-top: 18px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 5px;
+  background-color: rgba(255,255,255,0.2);
+  margin-left: 6px;
+  margin-right: 6px;
+}
+
+.dot-on {
+  background-color: #22c1e8;
 }
 </style>

@@ -1,49 +1,71 @@
 <template>
   <div class="page">
-    <div class="field" onswipe="onSwipe">
+    <div class="field" onswipe="onSwipe" ontouchstart="onTouchStart" ontouchmove="onTouchMove" ontouchend="onTouchEnd">
 
-      <div class="info-bar">
-        <div class="info-item" if="{{ isI1 }}">
-          <text class="info-text">分数:{{ score }}</text>
-          <text class="info-text">用时:{{ gameTime }}秒</text>
-        </div>
-        <div class="info-item" if="{{ isHp }}">
-          <text class="info-text">血量:{{ hp }}</text>
-          <text class="info-text">分数:{{ score }}</text>
+      <div class="star" style="left:{{ s0x }}px;top:{{ s0y }}px;width:{{ s0s }}px;height:{{ s0s }}px;opacity:{{ s0o }};"></div>
+      <div class="star" style="left:{{ s1x }}px;top:{{ s1y }}px;width:{{ s1s }}px;height:{{ s1s }}px;opacity:{{ s1o }};"></div>
+      <div class="star" style="left:{{ s2x }}px;top:{{ s2y }}px;width:{{ s2s }}px;height:{{ s2s }}px;opacity:{{ s2o }};"></div>
+      <div class="star" style="left:{{ s3x }}px;top:{{ s3y }}px;width:{{ s3s }}px;height:{{ s3s }}px;opacity:{{ s3o }};"></div>
+      <div class="star" style="left:{{ s4x }}px;top:{{ s4y }}px;width:{{ s4s }}px;height:{{ s4s }}px;opacity:{{ s4o }};"></div>
+      <div class="star" style="left:{{ s5x }}px;top:{{ s5y }}px;width:{{ s5s }}px;height:{{ s5s }}px;opacity:{{ s5o }};"></div>
+      <div class="star" style="left:{{ s6x }}px;top:{{ s6y }}px;width:{{ s6s }}px;height:{{ s6s }}px;opacity:{{ s6o }};"></div>
+      <div class="star" style="left:{{ s7x }}px;top:{{ s7y }}px;width:{{ s7s }}px;height:{{ s7s }}px;opacity:{{ s7o }};"></div>
+      <div class="star" style="left:{{ s8x }}px;top:{{ s8y }}px;width:{{ s8s }}px;height:{{ s8s }}px;opacity:{{ s8o }};"></div>
+      <div class="star" style="left:{{ s9x }}px;top:{{ s9y }}px;width:{{ s9s }}px;height:{{ s9s }}px;opacity:{{ s9o }};"></div>
+      <div class="star" style="left:{{ s10x }}px;top:{{ s10y }}px;width:{{ s10s }}px;height:{{ s10s }}px;opacity:{{ s10o }};"></div>
+      <div class="star" style="left:{{ s11x }}px;top:{{ s11y }}px;width:{{ s11s }}px;height:{{ s11s }}px;opacity:{{ s11o }};"></div>
+
+      <div class="info-bar" onclick="togglePause">
+        <div class="info-item" if="{{ isBr }}">
+          <text class="info-label">分数</text>
+          <text class="info-value">{{ score }}</text>
+          <text class="info-label">蓝球</text>
+          <text class="info-value">{{ blueCount }}/10</text>
         </div>
         <div class="info-item" if="{{ isExt }}">
-          <text class="info-text">分数:{{ score }}</text>
-          <text class="info-text">用时:{{ gameTime }}秒</text>
+          <text class="info-label">分数</text>
+          <text class="info-value">{{ score }}</text>
+          <text class="info-label">剩余</text>
+          <text class="info-value">{{ bricksLeft }}</text>
         </div>
-        <div class="info-item" if="{{ isBr }}">
-          <text class="info-text">分数:{{ score }}</text>
-          <text class="info-text">蓝球:{{ blueCount }}/10</text>
+        <div class="info-item" if="{{ isHp }}">
+          <text class="info-label">血量</text>
+          <text class="info-value">{{ hp }}</text>
+          <text class="info-label">分数</text>
+          <text class="info-value">{{ score }}</text>
+        </div>
+        <div class="info-item" if="{{ isWild }}">
+          <text class="info-label">分数</text>
+          <text class="info-value">{{ score }}</text>
+          <text class="info-label">剩余</text>
+          <text class="info-value">{{ bricksLeft }}</text>
         </div>
       </div>
 
-      <div class="brick" if="{{ b0a }}" style="left:{{ b0x }}px;top:{{ b0y }}px;background-color:{{ b0c }};"></div>
-      <div class="brick" if="{{ b1a }}" style="left:{{ b1x }}px;top:{{ b1y }}px;background-color:{{ b1c }};"></div>
-      <div class="brick" if="{{ b2a }}" style="left:{{ b2x }}px;top:{{ b2y }}px;background-color:{{ b2c }};"></div>
-      <div class="brick" if="{{ b3a }}" style="left:{{ b3x }}px;top:{{ b3y }}px;background-color:{{ b3c }};"></div>
-      <div class="brick" if="{{ b4a }}" style="left:{{ b4x }}px;top:{{ b4y }}px;background-color:{{ b4c }};"></div>
-      <div class="brick" if="{{ b5a }}" style="left:{{ b5x }}px;top:{{ b5y }}px;background-color:{{ b5c }};"></div>
-      <div class="brick" if="{{ b6a }}" style="left:{{ b6x }}px;top:{{ b6y }}px;background-color:{{ b6c }};"></div>
-      <div class="brick" if="{{ b7a }}" style="left:{{ b7x }}px;top:{{ b7y }}px;background-color:{{ b7c }};"></div>
-      <div class="brick" if="{{ b8a }}" style="left:{{ b8x }}px;top:{{ b8y }}px;background-color:{{ b8c }};"></div>
-      <div class="brick" if="{{ b9a }}" style="left:{{ b9x }}px;top:{{ b9y }}px;background-color:{{ b9c }};"></div>
-      <div class="brick" if="{{ b10a }}" style="left:{{ b10x }}px;top:{{ b10y }}px;background-color:{{ b10c }};"></div>
-      <div class="brick" if="{{ b11a }}" style="left:{{ b11x }}px;top:{{ b11y }}px;background-color:{{ b11c }};"></div>
-      <div class="brick" if="{{ b12a }}" style="left:{{ b12x }}px;top:{{ b12y }}px;background-color:{{ b12c }};"></div>
-      <div class="brick" if="{{ b13a }}" style="left:{{ b13x }}px;top:{{ b13y }}px;background-color:{{ b13c }};"></div>
-      <div class="brick" if="{{ b14a }}" style="left:{{ b14x }}px;top:{{ b14y }}px;background-color:{{ b14c }};"></div>
-      <div class="brick" if="{{ b15a }}" style="left:{{ b15x }}px;top:{{ b15y }}px;background-color:{{ b15c }};"></div>
-      <div class="brick" if="{{ b16a }}" style="left:{{ b16x }}px;top:{{ b16y }}px;background-color:{{ b16c }};"></div>
-      <div class="brick" if="{{ b17a }}" style="left:{{ b17x }}px;top:{{ b17y }}px;background-color:{{ b17c }};"></div>
-      <div class="brick" if="{{ b18a }}" style="left:{{ b18x }}px;top:{{ b18y }}px;background-color:{{ b18c }};"></div>
-      <div class="brick" if="{{ b19a }}" style="left:{{ b19x }}px;top:{{ b19y }}px;background-color:{{ b19c }};"></div>
+      <div class="brick" if="{{ b0a }}" style="left:{{ b0x }}px;top:{{ b0y }}px;background-color:{{ b0c }};{{ b0s }}"></div>
+      <div class="brick" if="{{ b1a }}" style="left:{{ b1x }}px;top:{{ b1y }}px;background-color:{{ b1c }};{{ b1s }}"></div>
+      <div class="brick" if="{{ b2a }}" style="left:{{ b2x }}px;top:{{ b2y }}px;background-color:{{ b2c }};{{ b2s }}"></div>
+      <div class="brick" if="{{ b3a }}" style="left:{{ b3x }}px;top:{{ b3y }}px;background-color:{{ b3c }};{{ b3s }}"></div>
+      <div class="brick" if="{{ b4a }}" style="left:{{ b4x }}px;top:{{ b4y }}px;background-color:{{ b4c }};{{ b4s }}"></div>
+      <div class="brick" if="{{ b5a }}" style="left:{{ b5x }}px;top:{{ b5y }}px;background-color:{{ b5c }};{{ b5s }}"></div>
+      <div class="brick" if="{{ b6a }}" style="left:{{ b6x }}px;top:{{ b6y }}px;background-color:{{ b6c }};{{ b6s }}"></div>
+      <div class="brick" if="{{ b7a }}" style="left:{{ b7x }}px;top:{{ b7y }}px;background-color:{{ b7c }};{{ b7s }}"></div>
+      <div class="brick" if="{{ b8a }}" style="left:{{ b8x }}px;top:{{ b8y }}px;background-color:{{ b8c }};{{ b8s }}"></div>
+      <div class="brick" if="{{ b9a }}" style="left:{{ b9x }}px;top:{{ b9y }}px;background-color:{{ b9c }};{{ b9s }}"></div>
+      <div class="brick" if="{{ b10a }}" style="left:{{ b10x }}px;top:{{ b10y }}px;background-color:{{ b10c }};{{ b10s }}"></div>
+      <div class="brick" if="{{ b11a }}" style="left:{{ b11x }}px;top:{{ b11y }}px;background-color:{{ b11c }};{{ b11s }}"></div>
+      <div class="brick" if="{{ b12a }}" style="left:{{ b12x }}px;top:{{ b12y }}px;background-color:{{ b12c }};{{ b12s }}"></div>
+      <div class="brick" if="{{ b13a }}" style="left:{{ b13x }}px;top:{{ b13y }}px;background-color:{{ b13c }};{{ b13s }}"></div>
+      <div class="brick" if="{{ b14a }}" style="left:{{ b14x }}px;top:{{ b14y }}px;background-color:{{ b14c }};{{ b14s }}"></div>
+      <div class="brick" if="{{ b15a }}" style="left:{{ b15x }}px;top:{{ b15y }}px;background-color:{{ b15c }};{{ b15s }}"></div>
+      <div class="brick" if="{{ b16a }}" style="left:{{ b16x }}px;top:{{ b16y }}px;background-color:{{ b16c }};{{ b16s }}"></div>
+      <div class="brick" if="{{ b17a }}" style="left:{{ b17x }}px;top:{{ b17y }}px;background-color:{{ b17c }};{{ b17s }}"></div>
+      <div class="brick" if="{{ b18a }}" style="left:{{ b18x }}px;top:{{ b18y }}px;background-color:{{ b18c }};{{ b18s }}"></div>
+      <div class="brick" if="{{ b19a }}" style="left:{{ b19x }}px;top:{{ b19y }}px;background-color:{{ b19c }};{{ b19s }}"></div>
 
-      <div class="paddle" style="left:{{ px }}px;top:{{ py }}px;"></div>
+      <div class="paddle" style="left:{{ px }}px;top:{{ py }}px;width:{{ pw }}px;"></div>
       <div class="ball {{ isBr ? 'ball-white' : '' }}" style="left:{{ bx }}px;top:{{ by }}px;"></div>
+      <text class="ready-hint" if="{{ ballReady }}">左右甩动开球</text>
 
       <div class="ball-blue" if="{{ l0a }}" style="left:{{ l0x }}px;top:{{ l0y }}px;"></div>
       <div class="ball-blue" if="{{ l1a }}" style="left:{{ l1x }}px;top:{{ l1y }}px;"></div>
@@ -56,27 +78,54 @@
       <div class="ball-blue" if="{{ l8a }}" style="left:{{ l8x }}px;top:{{ l8y }}px;"></div>
       <div class="ball-blue" if="{{ l9a }}" style="left:{{ l9x }}px;top:{{ l9y }}px;"></div>
 
+      <div class="splash" if="{{ sp0a }}" style="left:{{ sp0x }}px;top:{{ sp0y }}px;opacity:{{ sp0o }};"></div>
+      <div class="splash" if="{{ sp1a }}" style="left:{{ sp1x }}px;top:{{ sp1y }}px;opacity:{{ sp1o }};"></div>
+      <div class="splash" if="{{ sp2a }}" style="left:{{ sp2x }}px;top:{{ sp2y }}px;opacity:{{ sp2o }};"></div>
+      <div class="splash" if="{{ sp3a }}" style="left:{{ sp3x }}px;top:{{ sp3y }}px;opacity:{{ sp3o }};"></div>
+      <div class="splash" if="{{ sp4a }}" style="left:{{ sp4x }}px;top:{{ sp4y }}px;opacity:{{ sp4o }};"></div>
+      <div class="splash" if="{{ sp5a }}" style="left:{{ sp5x }}px;top:{{ sp5y }}px;opacity:{{ sp5o }};"></div>
+      <div class="splash" if="{{ sp6a }}" style="left:{{ sp6x }}px;top:{{ sp6y }}px;opacity:{{ sp6o }};"></div>
+      <div class="splash" if="{{ sp7a }}" style="left:{{ sp7x }}px;top:{{ sp7y }}px;opacity:{{ sp7o }};"></div>
+
+      <div class="ripple" if="{{ rp0a }}" style="left:{{ rp0x }}px;top:{{ rp0y }}px;width:{{ rp0r }}px;height:{{ rp0r }}px;opacity:{{ rp0o }};"></div>
+      <div class="ripple" if="{{ rp1a }}" style="left:{{ rp1x }}px;top:{{ rp1y }}px;width:{{ rp1r }}px;height:{{ rp1r }}px;opacity:{{ rp1o }};"></div>
+      <div class="ripple" if="{{ rp2a }}" style="left:{{ rp2x }}px;top:{{ rp2y }}px;width:{{ rp2r }}px;height:{{ rp2r }}px;opacity:{{ rp2o }};"></div>
+
+      <div class="edge-flash" if="{{ flashA > 0 }}" style="opacity:{{ flashA }};border-color:{{ flashC }};"></div>
+
+      <div class="pop-wrap" if="{{ popA > 0 }}" style="left:{{ popX }}px;top:{{ popY }}px;opacity:{{ popA }};">
+        <text class="pop-text">{{ popT }}</text>
+      </div>
+
+      <div if="{{ paused }}" class="mask" onclick="onResume">
+        <div class="mask-card">
+          <text class="msg">已暂停</text>
+          <text class="hint">{{ pauseMsg }}</text>
+        </div>
+      </div>
+
       <div if="{{ over }}" class="mask" onclick="onMaskClick">
-        <text class="msg" if="{{ isI1 }}">游戏结束</text>
-        <text class="msg" if="{{ isHp }}">游戏结束</text>
-        <text class="msg" if="{{ isExt }}">游戏结束</text>
-        <text class="msg" if="{{ isBr }}">游戏结束</text>
-        <text class="hint" if="{{ isI1 }}">用时{{ gameTime }}秒，{{ timeRank }}</text>
-        <text class="hint" if="{{ isHp }}">血量归零</text>
-        <text class="hint" if="{{ isExt }}">得分{{ score }}分，{{ scoreRank }}</text>
-        <text class="hint" if="{{ isBr }}">得分{{ score }}分</text>
-        <text class="hint">本次消耗热量:{{ calories }}卡</text>
-        <text class="hint2">点击重来</text>
+        <div class="mask-card">
+          <text class="msg" style="opacity:{{ oMsg }}">游戏结束</text>
+          <text class="hint" style="opacity:{{ oH1 }}">本局分数:{{ score }}分</text>
+          <text class="hint" if="{{ isHp }}" style="opacity:{{ oH2 }}">剩余血量:{{ hp }}</text>
+          <text class="hint" style="opacity:{{ oH3 }}">本局游玩时长:{{ gameTime }}秒</text>
+          <text class="hint" style="opacity:{{ oH4 }}">本局消耗热量:{{ calJ }}焦</text>
+          <text class="hint" style="opacity:{{ oH5 }}">本局摆动次数:{{ swings }}次</text>
+          <text class="btn-pill" style="opacity:{{ oPill }}">点击重来</text>
+        </div>
       </div>
 
       <div if="{{ win }}" class="mask" onclick="onMaskClick">
-        <text class="msg">恭喜过关!</text>
-        <text class="hint" if="{{ isI1 }}">用时{{ gameTime }}秒，{{ timeRank }}</text>
-        <text class="hint" if="{{ isHp }}">血量剩余{{ hp }}</text>
-        <text class="hint" if="{{ isExt }}">得分{{ score }}分，{{ scoreRank }}</text>
-        <text class="hint" if="{{ isBr }}">得分{{ score }}分</text>
-        <text class="hint">本次消耗热量:{{ calories }}卡</text>
-        <text class="hint2">点击继续</text>
+        <div class="mask-card">
+          <text class="msg" style="opacity:{{ oMsg }}">恭喜过关!</text>
+          <text class="hint" style="opacity:{{ oH1 }}">本局分数:{{ score }}分</text>
+          <text class="hint" if="{{ isHp }}" style="opacity:{{ oH2 }}">剩余血量:{{ hp }}</text>
+          <text class="hint" style="opacity:{{ oH3 }}">本局游玩时长:{{ gameTime }}秒</text>
+          <text class="hint" style="opacity:{{ oH4 }}">本局消耗热量:{{ calJ }}焦</text>
+          <text class="hint" style="opacity:{{ oH5 }}">本局摆动次数:{{ swings }}次</text>
+          <text class="btn-pill" style="opacity:{{ oPill }}">点击继续</text>
+        </div>
       </div>
     </div>
   </div>
@@ -85,7 +134,11 @@
 <script>
 import router from "@system.router"
 import sensor from "@system.sensor"
-import storage from "@system.storage"
+import vibrator from "@system.vibrator"
+import { updateBest, addRun } from "../../util/stats"
+import { getBaseX } from "../../util/calib"
+
+var SPECIAL_C = { 1: '#ff7777', 2: '#55dd77', 3: '#5599ee' }
 
 export default {
   protected: {
@@ -94,63 +147,82 @@ export default {
   },
   private: {
     score: 0,
-    state: 0,
     over: false,
     win: false,
-    isI1: false,
-    isHp: false,
-    isExt: false,
     isBr: false,
-    timer: null,
-    fieldW: 480,
-    fieldH: 480,
-    playL: 75,
-    playR: 405,
-    playT: 82,
-    playB: 432,
-    bw: 52,
-    bh: 18,
-    bpad: 6,
-    pw: 100,
-    ph: 12,
+    isExt: false,
+    isHp: false,
+    isWild: false,
+    paused: false,
+    pauseMsg: '点击继续',
+    ballReady: false,
+    pw: 140,
     px: 0,
     py: 0,
     bx: 0,
     by: 0,
-    bvx: 0,
-    bvy: 0,
-    ballS: 22,
-    sensorX: 0,
-    filteredX: 0,
-    swipeVel: 0,
     gameTime: 0,
     calories: 0,
-    timeRank: '',
-    scoreRank: '',
+    calJ: 0,
+    bricksLeft: 0,
+    oMsg: 0,
+    oH1: 0,
+    oH2: 0,
+    oH3: 0,
+    oH4: 0,
+    oH5: 0,
+    oPill: 0,
+    swings: 0,
     hp: 3,
-    bestTime: 0,
-    bestScore: 0,
-    bestHpScore: 0,
-    b0x:0,b0y:0,b0a:false,b0c:'#ff3333',
-    b1x:0,b1y:0,b1a:false,b1c:'#ff3333',
-    b2x:0,b2y:0,b2a:false,b2c:'#ff3333',
-    b3x:0,b3y:0,b3a:false,b3c:'#ff3333',
-    b4x:0,b4y:0,b4a:false,b4c:'#ff3333',
-    b5x:0,b5y:0,b5a:false,b5c:'#ff3333',
-    b6x:0,b6y:0,b6a:false,b6c:'#ff3333',
-    b7x:0,b7y:0,b7a:false,b7c:'#ff3333',
-    b8x:0,b8y:0,b8a:false,b8c:'#ff3333',
-    b9x:0,b9y:0,b9a:false,b9c:'#ff3333',
-    b10x:0,b10y:0,b10a:false,b10c:'#ff3333',
-    b11x:0,b11y:0,b11a:false,b11c:'#ff3333',
-    b12x:0,b12y:0,b12a:false,b12c:'#ff3333',
-    b13x:0,b13y:0,b13a:false,b13c:'#ff3333',
-    b14x:0,b14y:0,b14a:false,b14c:'#ff3333',
-    b15x:0,b15y:0,b15a:false,b15c:'#ff3333',
-    b16x:0,b16y:0,b16a:false,b16c:'#ff3333',
-    b17x:0,b17y:0,b17a:false,b17c:'#ff3333',
-    b18x:0,b18y:0,b18a:false,b18c:'#ff3333',
-    b19x:0,b19y:0,b19a:false,b19c:'#ff3333',
+    b0x:0,b0y:0,b0a:false,b0c:'#ff3333',b0s:'',b0k:0,
+    b1x:0,b1y:0,b1a:false,b1c:'#ff3333',b1s:'',b1k:0,
+    b2x:0,b2y:0,b2a:false,b2c:'#ff3333',b2s:'',b2k:0,
+    b3x:0,b3y:0,b3a:false,b3c:'#ff3333',b3s:'',b3k:0,
+    b4x:0,b4y:0,b4a:false,b4c:'#ff3333',b4s:'',b4k:0,
+    b5x:0,b5y:0,b5a:false,b5c:'#ff3333',b5s:'',b5k:0,
+    b6x:0,b6y:0,b6a:false,b6c:'#ff3333',b6s:'',b6k:0,
+    b7x:0,b7y:0,b7a:false,b7c:'#ff3333',b7s:'',b7k:0,
+    b8x:0,b8y:0,b8a:false,b8c:'#ff3333',b8s:'',b8k:0,
+    b9x:0,b9y:0,b9a:false,b9c:'#ff3333',b9s:'',b9k:0,
+    b10x:0,b10y:0,b10a:false,b10c:'#ff3333',b10s:'',b10k:0,
+    b11x:0,b11y:0,b11a:false,b11c:'#ff3333',b11s:'',b11k:0,
+    b12x:0,b12y:0,b12a:false,b12c:'#ff3333',b12s:'',b12k:0,
+    b13x:0,b13y:0,b13a:false,b13c:'#ff3333',b13s:'',b13k:0,
+    b14x:0,b14y:0,b14a:false,b14c:'#ff3333',b14s:'',b14k:0,
+    b15x:0,b15y:0,b15a:false,b15c:'#ff3333',b15s:'',b15k:0,
+    b16x:0,b16y:0,b16a:false,b16c:'#ff3333',b16s:'',b16k:0,
+    b17x:0,b17y:0,b17a:false,b17c:'#ff3333',b17s:'',b17k:0,
+    b18x:0,b18y:0,b18a:false,b18c:'#ff3333',b18s:'',b18k:0,
+    b19x:0,b19y:0,b19a:false,b19c:'#ff3333',b19s:'',b19k:0,
+    flashA: 0,
+    flashC: '#ffffff',
+    popA: 0,
+    popT: '',
+    popX: 0,
+    popY: 0,
+    s0x:0,s0y:0,s0s:3,s0o:0.8,
+    s1x:0,s1y:0,s1s:2,s1o:0.5,
+    s2x:0,s2y:0,s2s:4,s2o:0.9,
+    s3x:0,s3y:0,s3s:2,s3o:0.6,
+    s4x:0,s4y:0,s4s:3,s4o:0.7,
+    s5x:0,s5y:0,s5s:2,s5o:0.4,
+    s6x:0,s6y:0,s6s:3,s6o:0.85,
+    s7x:0,s7y:0,s7s:4,s7o:0.55,
+    s8x:0,s8y:0,s8s:2,s8o:0.75,
+    s9x:0,s9y:0,s9s:3,s9o:0.5,
+    s10x:0,s10y:0,s10s:2,s10o:0.65,
+    s11x:0,s11y:0,s11s:4,s11o:0.8,
+    sp0x:0,sp0y:0,sp0o:0,sp0a:false,
+    sp1x:0,sp1y:0,sp1o:0,sp1a:false,
+    sp2x:0,sp2y:0,sp2o:0,sp2a:false,
+    sp3x:0,sp3y:0,sp3o:0,sp3a:false,
+    sp4x:0,sp4y:0,sp4o:0,sp4a:false,
+    sp5x:0,sp5y:0,sp5o:0,sp5a:false,
+    sp6x:0,sp6y:0,sp6o:0,sp6a:false,
+    sp7x:0,sp7y:0,sp7o:0,sp7a:false,
+    rp0x:0,rp0y:0,rp0r:6,rp0o:0,rp0a:false,
+    rp1x:0,rp1y:0,rp1r:6,rp1o:0,rp1a:false,
+    rp2x:0,rp2y:0,rp2r:6,rp2o:0,rp2a:false,
     blueCount: 0,
     l0a:false,l0x:0,l0y:0,l0vx:0,l0vy:0,
     l1a:false,l1x:0,l1y:0,l1vx:0,l1vy:0,
@@ -165,237 +237,669 @@ export default {
   },
 
   onInit() {
-    var self = this
     this.level = parseInt(this.level) || 1
     this.controlMode = parseInt(this.controlMode) || 0
     this.updateModeFlags()
-    storage.get({ key: 'bestTime', success: function(d) { self.bestTime = parseInt(d) || 0 } })
-    storage.get({ key: 'bestScore', success: function(d) { self.bestScore = parseInt(d) || 0 } })
-    storage.get({ key: 'bestHpScore', success: function(d) { self.bestHpScore = parseInt(d) || 0 } })
+    this.setupKeys()
     this.buildBricks()
     this.resetBall()
-    if (this.level === 2) this.hp = 3
+    this.initStars()
+    if (this.level === 3) this.hp = 3
     this.startGame()
   },
 
+  setupKeys() {
+    this.state = 0
+    this.timer = null
+    this.fieldW = 480
+    this.fieldH = 480
+    this.playL = 75
+    this.playR = 405
+    this.playT = 82
+    this.playB = 432
+    this.bw = 52
+    this.bh = 18
+    this.bpad = 6
+    this.ph = 12
+    this.bvx = 0
+    this.bvy = 0
+    this.ballS = 24
+    this._rawX = 0
+    this.filteredX = 0
+    this.touchActive = false
+    this.tiltStroke = false
+    this.mvDir = 1
+    this.fastTicks = 0
+    this.growTicks = 0
+    this.startTime = 0
+    this._pauseTotal = 0
+    this._pausedAt = 0
+    this._tickFn = null
+    this._slowFrames = 0
+    this._lastTick = 0
+    this._pwL = false
+    this._pwR = false
+    this.launchAcc = 0
+    this.prevPx = 0
+    this._mvIdx = -1
+    var i
+    this._bx = []; this._by = []; this._ba = []; this._bc = []; this._bs = []; this._bk = []
+    for (i = 0; i < 20; i++) {
+      this._bx[i] = 'b' + i + 'x'
+      this._by[i] = 'b' + i + 'y'
+      this._ba[i] = 'b' + i + 'a'
+      this._bc[i] = 'b' + i + 'c'
+      this._bs[i] = 'b' + i + 's'
+      this._bk[i] = 'b' + i + 'k'
+    }
+    this._lx = []; this._ly = []; this._la = []; this._lvx = []; this._lvy = []
+    for (i = 0; i < 10; i++) {
+      this._lx[i] = 'l' + i + 'x'
+      this._ly[i] = 'l' + i + 'y'
+      this._la[i] = 'l' + i + 'a'
+      this._lvx[i] = 'l' + i + 'vx'
+      this._lvy[i] = 'l' + i + 'vy'
+    }
+    this._sx = []; this._sy = []; this._so = []
+    for (i = 0; i < 12; i++) {
+      this._sx[i] = 's' + i + 'x'
+      this._sy[i] = 's' + i + 'y'
+      this._so[i] = 's' + i + 'o'
+    }
+    this._spx = []; this._spy = []; this._spo = []; this._spa = []
+    for (i = 0; i < 8; i++) {
+      this._spx[i] = 'sp' + i + 'x'
+      this._spy[i] = 'sp' + i + 'y'
+      this._spo[i] = 'sp' + i + 'o'
+      this._spa[i] = 'sp' + i + 'a'
+    }
+    this._rpx = []; this._rpy = []; this._rpr = []; this._rpo = []; this._rpa = []
+    for (i = 0; i < 3; i++) {
+      this._rpx[i] = 'rp' + i + 'x'
+      this._rpy[i] = 'rp' + i + 'y'
+      this._rpr[i] = 'rp' + i + 'r'
+      this._rpo[i] = 'rp' + i + 'o'
+      this._rpa[i] = 'rp' + i + 'a'
+    }
+    this._spVx = []; this._spVy = []
+    this._rpCx = []; this._rpCy = []
+    this._aimAlive = []
+    this._aimRet = { vx: 0, vy: 0 }
+    this._hpAlive = []
+    this._starCursor = 0
+    this._aliveCnt = 0
+    this._totalBricks = 0
+  },
+
+  initStars() {
+    for (var i = 0; i < 12; i++) {
+      this[this._sx[i]] = Math.floor(Math.random() * 460)
+      this[this._sy[i]] = Math.floor(Math.random() * 460)
+      this[this._so[i]] = Math.round((0.3 + Math.random() * 0.6) * 100) / 100
+    }
+  },
+
+  twinkleStars() {
+    var c = this._starCursor
+    for (var n = 0; n < 2; n++) {
+      var i = c + n
+      if (i >= 12) i -= 12
+      var kx = this._sx[i]
+      var ky = this._sy[i]
+      if (Math.random() < 0.5) {
+        this[this._so[i]] = Math.round((0.1 + Math.random() * 0.8) * 100) / 100
+      }
+      this[kx] += Math.floor(Math.random() * 3) - 1
+      this[ky] += Math.floor(Math.random() * 3) - 1
+      if (this[kx] < 0) this[kx] = 470
+      if (this[kx] > 470) this[kx] = 0
+      if (this[ky] < 0) this[ky] = 470
+      if (this[ky] > 470) this[ky] = 0
+    }
+    c += 2
+    if (c >= 12) c -= 12
+    this._starCursor = c
+  },
+
   updateModeFlags() {
-    this.isI1 = this.level === 1
-    this.isHp = this.level === 2
-    this.isExt = this.level === 3
-    this.isBr = this.level === 4
+    this.isBr = this.level === 1
+    this.isExt = this.level === 2
+    this.isHp = this.level === 3
+    this.isWild = this.level === 4
   },
 
   onReady() {},
 
   startGame() {
     var self = this
-    if (this.controlMode === 0) {
-      sensor.subscribeAccelerometer({
-        interval: 'game',
-        callback: function(ret) { self.sensorX = ret.x }
-      })
-    }
-    this.timer = setInterval(function () {
-      if (self.state === 0) {
-        self.tick()
-        self.gameTime = Math.floor(self.gameTime * 10 + 1) / 10
+    if (!this._tickFn) {
+      this._tickFn = function() {
+        self.timer = null
+        try {
+          if (self.state === 0 && !self.paused) {
+            var now = Date.now()
+            if (self._lastTick) {
+              if (now - self._lastTick > 300) {
+                self._slowFrames++
+                if (self._slowFrames >= 10) {
+                  self._lastTick = 0
+                  self.autoPause()
+                  return
+                }
+              } else {
+                self._slowFrames = 0
+              }
+            }
+            self._lastTick = now
+            self.tick()
+          }
+        } catch (e) {
+          try { self.bvx = 3.4; self.bvy = -3.4 } catch (e2) {}
+        }
+        if (self.state === 0 && !self.paused) self.schedule()
       }
-    }, 35)
+    }
+    this.subscribeSensor()
+    this.schedule()
   },
 
-  onDestroy() {
-    if (this.timer) { clearInterval(this.timer); this.timer = null }
+  schedule() {
+    if (this.timer) return
+    this.timer = setTimeout(this._tickFn, 35)
+  },
+
+  stopLoop() {
+    if (this.timer) {
+      clearTimeout(this.timer)
+      this.timer = null
+    }
+  },
+
+  subscribeSensor() {
+    var self = this
+    if (this.controlMode === 0) {
+      try {
+        sensor.subscribeAccelerometer({
+          interval: 'game',
+          callback: function(ret) { self._rawX = ret.x }
+        })
+      } catch (e) {}
+    }
+  },
+
+  unsubscribeSensor() {
     try { sensor.unsubscribeAccelerometer() } catch (e) {}
   },
 
+  onDestroy() {
+    this.startTime = 0
+    this.stopLoop()
+    this.unsubscribeSensor()
+  },
+
+  onHide() {
+    if (this.state === 0) {
+      this.paused = true
+      this._pausedAt = Date.now()
+      this.stopLoop()
+      this.unsubscribeSensor()
+    }
+  },
+
+  onShow() {
+    if (this.paused && this.state === 0) {
+      this.stopLoop()
+    }
+  },
+
+  onResume() {
+    if (!this.paused) return
+    this.paused = false
+    this.pauseMsg = '点击继续'
+    if (this._pausedAt) {
+      this._pauseTotal += Date.now() - this._pausedAt
+      this._pausedAt = 0
+    }
+    this.filteredX = 0
+    this._rawX = 0
+    this._slowFrames = 0
+    this._lastTick = 0
+    this.subscribeSensor()
+    this.schedule()
+  },
+
+  togglePause() {
+    if (this.state !== 0) return
+    if (this.paused) {
+      this.onResume()
+      return
+    }
+    this.paused = true
+    this.pauseMsg = '点击继续'
+    this._pausedAt = Date.now()
+    this.stopLoop()
+    this.unsubscribeSensor()
+  },
+
+  autoPause() {
+    this.paused = true
+    this.pauseMsg = '当前性能不足，已自动暂停，点击继续'
+    this._pausedAt = Date.now()
+    this.stopLoop()
+    this.unsubscribeSensor()
+  },
+
   buildBricks() {
-    var rows = Math.min(2 + this.level, 5)
-    var cols = 5
-    var totalW = cols * this.bw + (cols - 1) * this.bpad
-    var startX = Math.floor((this.fieldW - totalW) / 2)
-    var startY = 232
-    var idx = 0
-    var normalColors = ['#ff8800','#ffcc00','#3399ff','#cc33ff']
-    for (var r = 0; r < rows; r++) {
-      for (var c = 0; c < cols; c++) {
-        if (idx >= 20) break
-        this['b' + idx + 'x'] = startX + c * (this.bw + this.bpad)
-        this['b' + idx + 'y'] = startY + r * (this.bh + this.bpad)
-        this['b' + idx + 'a'] = true
-        if (this.level === 2) {
-          this['b' + idx + 'c'] = '#ffcc00'
-        } else {
-          this['b' + idx + 'c'] = normalColors[(r + c) % normalColors.length]
-        }
-        idx++
+    var cells = []
+    var r, c
+    if (this.isHp) {
+      this.bw = 52
+      for (c = 0; c < 4; c++) cells.push([127 + c * 58, 280, c + 1])
+      cells.push([214, 232, 0]); cells.push([214, 256, 1])
+      cells.push([214, 304, 3]); cells.push([214, 328, 4])
+    } else if (this.isBr) {
+      this.bw = 64
+      for (r = 0; r < 5; r++) {
+        for (c = 0; c < 3; c++) cells.push([108 + c * 100, 165 + r * 40, r + c])
       }
-      if (idx >= 20) break
+    } else if (this.isWild) {
+      this.bw = 48
+      for (c = 0; c < 3; c++) cells.push([160 + c * 56, 232, c])
+      for (c = 0; c < 4; c++) cells.push([132 + c * 56, 256, c + 1])
+      for (c = 0; c < 5; c++) cells.push([104 + c * 56, 280, c + 2])
+    } else {
+      this.bw = 64
+      for (r = 0; r < 4; r++) {
+        for (c = 0; c < 4; c++) cells.push([103 + c * 70, 232 + r * 24, r + c])
+      }
     }
-    for (var i = idx; i < 20; i++) {
-      this['b' + i + 'a'] = false
-      this['b' + i + 'x'] = -999
-      this['b' + i + 'y'] = -999
-      this['b' + i + 'c'] = '#333333'
+    var idx = 0
+    var normalColors = ['#ff6b6b','#ffb347','#5ad1a5','#5aa9ff','#b987ff']
+    for (var i = 0; i < cells.length && idx < 20; i++) {
+      this[this._bx[idx]] = cells[i][0]
+      this[this._by[idx]] = cells[i][1]
+      this[this._ba[idx]] = true
+      this[this._bs[idx]] = ''
+      this[this._bk[idx]] = 0
+      if (this.isHp) {
+        this[this._bc[idx]] = '#ffcc00'
+      } else {
+        this[this._bc[idx]] = normalColors[cells[i][2] % normalColors.length]
+      }
+      idx++
     }
-    if (this.level === 2) this.assignHealthBricks()
+    for (var hi = idx; hi < 20; hi++) {
+      this[this._ba[hi]] = false
+      this[this._bx[hi]] = -999
+      this[this._by[hi]] = -999
+      this[this._bc[hi]] = '#333333'
+      this[this._bs[hi]] = ''
+      this[this._bk[hi]] = 0
+    }
+    this._mvIdx = -1
+    if (this.isWild) {
+      this._mvIdx = idx
+      this[this._bx[idx]] = 216
+      this[this._by[idx]] = 304
+      this[this._ba[idx]] = true
+      this[this._bc[idx]] = '#22c1e8'
+      this[this._bs[idx]] = 'border:2px solid #ffffff;'
+      this[this._bk[idx]] = 0
+      this.mvDir = 1
+      idx++
+    }
+    if (this.isHp) this.assignHealthBricks()
+    this._totalBricks = idx
+    this._aliveCnt = idx
+    this.bricksLeft = idx
+    this.assignSpecialBricks(idx)
+  },
+
+  assignSpecialBricks(count) {
+    var picked = {}
+    var kinds = [1, 2, 3]
+    for (var k = 0; k < kinds.length && count > 0; k++) {
+      var pos = -1
+      for (var g = 0; g < 50; g++) {
+        var cand = Math.floor(Math.random() * count)
+        if (!picked[cand] && !(this._mvIdx >= 0 && cand === this._mvIdx)) {
+          pos = cand
+          break
+        }
+      }
+      if (pos < 0) continue
+      picked[pos] = true
+      this[this._bk[pos]] = kinds[k]
+      this[this._bc[pos]] = SPECIAL_C[kinds[k]]
+      this[this._bs[pos]] = 'border:2px solid #ffffff;'
+    }
   },
 
   assignHealthBricks() {
-    var alive = []
+    var alive = this._hpAlive
+    alive.length = 0
     for (var i = 0; i < 20; i++) {
-      if (this['b' + i + 'a']) alive.push(i)
+      if (this[this._ba[i]]) alive.push(i)
     }
     var total = alive.length
     for (var j = 0; j < total; j++) {
-      this['b' + alive[j] + 'c'] = '#ffcc00'
+      this[this._bc[alive[j]]] = '#ffcc00'
     }
     var redCount = Math.min(4, Math.floor(total * 0.2))
     var greenCount = Math.min(3, Math.floor(total * 0.15))
     var blueCount = Math.min(3, Math.floor(total * 0.15))
-    var idx = 0
     var placed = 0
-    var redPlaced = 0
-    while (placed < total && redPlaced < redCount) {
-      this['b' + alive[placed] + 'c'] = '#ff3333'
+    for (var rp = 0; rp < redCount && placed < total; rp++) {
+      this[this._bc[alive[placed]]] = '#ff3333'
       placed++
-      redPlaced++
     }
-    var greenPlaced = 0
-    while (placed < total && greenPlaced < greenCount) {
-      this['b' + alive[placed] + 'c'] = '#33cc33'
+    for (var gp = 0; gp < greenCount && placed < total; gp++) {
+      this[this._bc[alive[placed]]] = '#33cc33'
       placed++
-      greenPlaced++
     }
-    var bluePlaced = 0
-    while (placed < total && bluePlaced < blueCount) {
-      this['b' + alive[placed] + 'c'] = '#3396ff'
+    for (var bp = 0; bp < blueCount && placed < total; bp++) {
+      this[this._bc[alive[placed]]] = '#3396ff'
       placed++
-      bluePlaced++
     }
   },
 
   resetBall() {
-    this.pw = 100
+    this.pw = 140
     this.px = Math.floor((this.fieldW - this.pw) / 2)
     this.py = this.playB - 30
     this.bx = Math.floor(this.fieldW / 2 - this.ballS / 2)
     this.by = this.py - 30
-    if (this.level === 3) {
-      var spd3 = 3 + 0.5
-      this.bvx = spd3
-      this.bvy = -spd3
-    } else {
-      var spd = 2 + (this.level - 1) * 0.5
-      this.bvx = spd
-      this.bvy = -spd
-    }
+    this.bvx = 0
+    this.bvy = 0
+    this.ballReady = true
+    this.launchAcc = 0
+    this.prevPx = this.px
     this.score = 0
     this.state = 0
     this.over = false
     this.win = false
+    this.swings = 0
+    this.tiltStroke = false
     this.filteredX = 0
-    this.swipeVel = 0
+    this.touchActive = false
     this.gameTime = 0
+    this.startTime = Date.now()
+    this._pauseTotal = 0
+    this._pausedAt = 0
     this.calories = 0
+    this.calJ = 0
+    this.oMsg = 0
+    this.oH1 = 0
+    this.oH2 = 0
+    this.oH3 = 0
+    this.oH4 = 0
+    this.oH5 = 0
+    this.oPill = 0
     this.blueCount = 0
+    this.fastTicks = 0
+    this.growTicks = 0
+    this.flashA = 0
+    this.popA = 0
     for (var s = 0; s < 10; s++) {
-      this['l' + s + 'a'] = false
-      this['l' + s + 'x'] = -999
-      this['l' + s + 'y'] = -999
-      this['l' + s + 'vx'] = 0
-      this['l' + s + 'vy'] = 0
+      this[this._la[s]] = false
+      this[this._lx[s]] = -999
+      this[this._ly[s]] = -999
+      this[this._lvx[s]] = 0
+      this[this._lvy[s]] = 0
     }
+    for (var si = 0; si < 8; si++) {
+      this[this._spa[si]] = false
+      this[this._spo[si]] = 0
+    }
+    for (var ri = 0; ri < 3; ri++) {
+      this[this._rpa[ri]] = false
+      this[this._rpo[ri]] = 0
+    }
+    this._slowFrames = 0
+    this._lastTick = 0
+    this._pwL = false
+    this._pwR = false
   },
 
   spawnBlueBall(cx, cy) {
     if (this.blueCount >= 10) return
     var slot = -1
     for (var s = 0; s < 10; s++) {
-      if (!this['l' + s + 'a']) { slot = s; break }
+      if (!this[this._la[s]]) { slot = s; break }
     }
     if (slot < 0) return
     var spd = Math.sqrt(this.bvx * this.bvx + this.bvy * this.bvy)
     if (spd < 0.1) spd = 2.5
     var ang = Math.PI * (1 + Math.random())
-    this['l' + slot + 'a'] = true
-    this['l' + slot + 'x'] = cx - this.ballS / 2
-    this['l' + slot + 'y'] = cy - this.ballS / 2
-    this['l' + slot + 'vx'] = Math.cos(ang) * spd
-    this['l' + slot + 'vy'] = Math.sin(ang) * spd
+    this[this._la[slot]] = true
+    this[this._lx[slot]] = cx - this.ballS / 2
+    this[this._ly[slot]] = cy - this.ballS / 2
+    this[this._lvx[slot]] = Math.cos(ang) * spd
+    this[this._lvy[slot]] = Math.sin(ang) * spd
     this.blueCount++
   },
 
   respawnBall() {
     this.bx = Math.floor(this.fieldW / 2 - this.ballS / 2)
     this.by = this.py - 30
-    var spd = 2 + (this.level - 1) * 0.5
+    var spd = this.isBr ? 4.0 : 3.4
     this.bvx = spd * (Math.random() < 0.5 ? -1 : 1)
     this.bvy = -spd
   },
 
-  aimAtBrick(bx, by, vx, vy) {
-    var alive = []
-    var totalA = Math.min((2 + this.level) * 5, 20)
-    for (var i = 0; i < totalA; i++) {
-      if (this['b' + i + 'a']) alive.push(i)
+  spawnSplash(cx, cy) {
+    var made = 0
+    for (var i = 0; i < 8 && made < 4; i++) {
+      if (this[this._spa[i]]) continue
+      var ang = Math.random() * Math.PI * 2
+      var spd = 1.5 + Math.random() * 2
+      this._spVx[i] = Math.cos(ang) * spd
+      this._spVy[i] = Math.sin(ang) * spd - 1
+      this[this._spx[i]] = cx - 3
+      this[this._spy[i]] = cy - 3
+      this[this._spo[i]] = 1
+      this[this._spa[i]] = true
+      made++
     }
-    if (alive.length === 0 || alive.length > 3) return { vx: vx, vy: vy }
-    var target = alive[Math.floor(Math.random() * alive.length)]
-    var dx = this['b' + target + 'x'] + this.bw / 2 - (bx + this.ballS / 2)
-    var dy = this['b' + target + 'y'] + this.bh / 2 - (by + this.ballS / 2)
-    var len = Math.sqrt(dx * dx + dy * dy)
-    if (len < 1) return { vx: vx, vy: vy }
-    var spd = Math.sqrt(vx * vx + vy * vy)
-    if (spd < 0.1) spd = 2
-    var mix = 0.55
-    if (alive.length === 2) mix = 0.4
-    if (alive.length === 3) mix = 0.22
-    var nx = vx * (1 - mix) + (dx / len) * spd * mix
-    var ny = vy * (1 - mix) + (dy / len) * spd * mix
-    var ns = Math.sqrt(nx * nx + ny * ny)
-    if (ns < 0.1) ns = 1
-    return { vx: nx / ns * spd, vy: ny / ns * spd }
+  },
+
+  spawnRipple(cx, cy) {
+    for (var i = 0; i < 3; i++) {
+      if (this[this._rpa[i]]) continue
+      this._rpCx[i] = cx
+      this._rpCy[i] = cy
+      this[this._rpr[i]] = 6
+      this[this._rpx[i]] = cx - 3
+      this[this._rpy[i]] = cy - 3
+      this[this._rpo[i]] = 0.7
+      this[this._rpa[i]] = true
+      return
+    }
+  },
+
+  updateFx() {
+    for (var i = 0; i < 8; i++) {
+      if (!this[this._spa[i]]) continue
+      this._spVy[i] += 0.12
+      this._spVx[i] *= 0.98
+      this[this._spx[i]] += this._spVx[i]
+      this[this._spy[i]] += this._spVy[i]
+      var so = this[this._spo[i]] - 0.072
+      if (so <= 0) {
+        this[this._spa[i]] = false
+        this[this._spo[i]] = 0
+      } else {
+        this[this._spo[i]] = so
+      }
+    }
+    for (var r = 0; r < 3; r++) {
+      if (!this[this._rpa[r]]) continue
+      var nr = this[this._rpr[r]] + 2.5
+      if (nr >= 36) {
+        this[this._rpa[r]] = false
+        this[this._rpo[r]] = 0
+      } else {
+        this[this._rpr[r]] = nr
+        this[this._rpx[r]] = this._rpCx[r] - nr / 2
+        this[this._rpy[r]] = this._rpCy[r] - nr / 2
+        this[this._rpo[r]] = this[this._rpo[r]] * 0.82
+      }
+    }
+  },
+
+  buzz() {
+    try {
+      if (typeof vibrator.getSystemDefaultMode === 'function' && vibrator.getSystemDefaultMode() === 0) return
+    } catch (e) {}
+    try { vibrator.vibrate({ mode: 'short' }) } catch (e) {}
+  },
+
+  triggerSkill(kind, cx, cy) {
+    this.buzz()
+    if (kind === 1) {
+      this.fastTicks = 143
+      this.flashC = '#ff3333'
+      this.popT = '变快'
+    } else if (kind === 2) {
+      this.growTicks = 229
+      this.pw = 200
+      if (this.px > this.playR - this.pw) this.px = this.playR - this.pw
+      if (this.px < this.playL) this.px = this.playL
+      this.flashC = '#33cc33'
+      this.popT = '增长'
+    } else if (kind === 3) {
+      this.spawnBlueBall(cx, cy)
+      this.spawnBlueBall(cx, cy)
+      this.flashC = '#3399ff'
+      this.popT = '分身'
+    }
+    this.flashA = 1
+    this.popA = 1
+    this.popX = cx - 30
+    this.popY = cy - 24
+  },
+
+  aimAtBrick(bx, by, vx, vy) {
+    var ret = this._aimRet
+    ret.vx = vx
+    ret.vy = vy
+    try {
+      if (this._aliveCnt <= 0 || this._aliveCnt > 3) return ret
+      var target = -1
+      var best = 1e18
+      for (var i = 0; i < this._totalBricks; i++) {
+        if (!this[this._ba[i]]) continue
+        var tx = this[this._bx[i]] - bx
+        var ty = this[this._by[i]] - by
+        var d2 = tx * tx + ty * ty
+        if (d2 < best) { best = d2; target = i }
+      }
+      if (target < 0) return ret
+      var dx = this[this._bx[target]] + this.bw / 2 - (bx + this.ballS / 2)
+      var dy = this[this._by[target]] + this.bh / 2 - (by + this.ballS / 2)
+      var ang = Math.atan2(dy, dx)
+      var spd = Math.sqrt(vx * vx + vy * vy)
+      if (!isFinite(spd) || spd < 0.1) spd = 3.4
+      var nvx = Math.cos(ang) * spd
+      var nvy = Math.sin(ang) * spd
+      if (!isFinite(nvx) || !isFinite(nvy)) {
+        ret.vx = vx
+        ret.vy = vy
+        return ret
+      }
+      var ns = Math.sqrt(nvx * nvx + nvy * nvy)
+      if (!(ns > 0.05)) { nvx = 3.4; nvy = -3.4 }
+      if (Math.abs(nvx) > 20) nvx = nvx > 0 ? 20 : -20
+      if (Math.abs(nvy) > 20) nvy = nvy > 0 ? 20 : -20
+      ret.vx = nvx
+      ret.vy = nvy
+    } catch (e) {
+      ret.vx = vx
+      ret.vy = vy
+    }
+    return ret
   },
 
   tick() {
-    if (this.level === 3) {
-      if (this.controlMode === 0) {
-        var rawX3 = this.sensorX
-        this.filteredX = this.filteredX * 0.7 + rawX3 * 0.3
-        var DEAD3 = 0.5
-        var tilt3 = this.filteredX
-        if (tilt3 > -DEAD3 && tilt3 < DEAD3) tilt3 = 0
-        this.px -= tilt3 * 0.7
+    if (!isFinite(this.px)) this.px = Math.floor((this.fieldW - this.pw) / 2)
+    if (!isFinite(this.bx)) this.bx = Math.floor(this.fieldW / 2 - this.ballS / 2)
+    if (!isFinite(this.by)) this.by = this.py - this.ballS
+    if (!isFinite(this.bvx) || !isFinite(this.bvy)) { this.bvx = 3.4; this.bvy = -3.4 }
+    this.twinkleStars()
+    this.updateFx()
+    if (this.isWild && this._mvIdx >= 0 && this[this._ba[this._mvIdx]]) {
+      var mnx = this[this._bx[this._mvIdx]] + this.mvDir * 2
+      if (mnx <= this.playL) { mnx = this.playL; this.mvDir = 1 }
+      if (mnx + this.bw >= this.playR) { mnx = this.playR - this.bw; this.mvDir = -1 }
+      this[this._bx[this._mvIdx]] = mnx
+    }
+    if (this.fastTicks > 0) this.fastTicks--
+    if (this.growTicks > 0) {
+      this.growTicks--
+      if (this.growTicks === 0) {
+        this.pw = 140
+        if (this.px > this.playR - this.pw) this.px = this.playR - this.pw
+        if (this.px < this.playL) this.px = this.playL
       }
-      if (this.swipeVel !== 0) {
-        this.px += this.swipeVel
-        this.swipeVel *= 0.9
-        if (Math.abs(this.swipeVel) < 0.5) this.swipeVel = 0
+    }
+    if (this.flashA > 0) {
+      this.flashA = Math.round((this.flashA - 0.05) * 100) / 100
+      if (this.flashA < 0) this.flashA = 0
+    }
+    if (this.popA > 0) {
+      this.popA = Math.round((this.popA - 0.04) * 100) / 100
+      this.popY -= 1.5
+      if (this.popA < 0) this.popA = 0
+    }
+    var mv = this.fastTicks > 0 ? 1.4 : 1
+    if (this.controlMode === 0) {
+      var rawX = this._rawX - getBaseX()
+      this.filteredX = this.filteredX * 0.7 + rawX * 0.3
+      var DEAD = 0.4
+      var tilt = this.filteredX
+      if (tilt > -DEAD && tilt < DEAD) tilt = 0
+      if (tilt !== 0) {
+        if (!this.tiltStroke) { this.swings++; this.tiltStroke = true }
+      } else {
+        this.tiltStroke = false
       }
-    } else {
-      if (this.controlMode === 0) {
-        var rawX = this.sensorX
-        this.filteredX = this.filteredX * 0.7 + rawX * 0.3
-        var DEAD = 0.5
-        var tilt = this.filteredX
-        if (tilt > -DEAD && tilt < DEAD) tilt = 0
-        this.px -= tilt * 0.6
-      }
-      if (this.swipeVel !== 0) {
-        this.px += this.swipeVel
-        this.swipeVel *= 0.9
-        if (Math.abs(this.swipeVel) < 0.5) this.swipeVel = 0
-      }
+      this.px -= tilt * (this.isExt ? 1.0 : 0.9)
     }
     if (this.px < this.playL) this.px = this.playL
     if (this.px > this.playR - this.pw) this.px = this.playR - this.pw
+    if (this.px <= this.playL) {
+      if (!this._pwL) { this._pwL = true; this.spawnRipple(this.playL, this.py + this.ph / 2) }
+    } else {
+      this._pwL = false
+    }
+    if (this.px >= this.playR - this.pw) {
+      if (!this._pwR) { this._pwR = true; this.spawnRipple(this.playR, this.py + this.ph / 2) }
+    } else {
+      this._pwR = false
+    }
 
-    this.bx += this.bvx
-    this.by += this.bvy
+    if (this.ballReady) {
+      this.bx = this.px + this.pw / 2 - this.ballS / 2
+      this.by = this.py - this.ballS
+      var moved = this.px - this.prevPx
+      this.prevPx = this.px
+      this.launchAcc += moved
+      if (Math.abs(this.launchAcc) >= 4) {
+        this.ballReady = false
+        var lspd = this.isExt ? 4.8 : this.isBr ? 4.0 : 3.4
+        this.bvx = Math.max(-lspd, Math.min(lspd, this.launchAcc * 0.25))
+        this.bvy = -lspd
+        this.startTime = Date.now()
+        this._pauseTotal = 0
+        this._pausedAt = 0
+      }
+    } else {
+    this.bx += this.bvx * mv
+    this.by += this.bvy * mv
 
-    if (this.bx <= this.playL) { this.bx = this.playL; this.bvx = Math.abs(this.bvx) }
-    if (this.bx + this.ballS >= this.playR) { this.bx = this.playR - this.ballS; this.bvx = -Math.abs(this.bvx) }
-    if (this.by <= this.playT) { this.by = this.playT; this.bvy = Math.abs(this.bvy) }
+    if (this.bx <= this.playL) { this.bx = this.playL; this.bvx = Math.abs(this.bvx); this.spawnRipple(this.playL, this.by + this.ballS / 2) }
+    if (this.bx + this.ballS >= this.playR) { this.bx = this.playR - this.ballS; this.bvx = -Math.abs(this.bvx); this.spawnRipple(this.playR, this.by + this.ballS / 2) }
+    if (this.by <= this.playT) { this.by = this.playT; this.bvy = Math.abs(this.bvy); this.spawnRipple(this.bx + this.ballS / 2, this.playT) }
 
     if (this.bvy > 0 &&
         this.by + this.ballS >= this.py &&
@@ -405,7 +909,7 @@ export default {
       this.by = this.py - this.ballS
       this.bvy = -Math.abs(this.bvy)
       var hit = (this.bx + this.ballS / 2 - this.px) / this.pw
-      if (this.level === 3) {
+      if (this.isExt) {
         this.bvx = (hit - 0.5) * 6
         if (this.bvx > 0 && this.bvx < 1.5) this.bvx = 1.5
         if (this.bvx < 0 && this.bvx > -1.5) this.bvx = -1.5
@@ -417,11 +921,11 @@ export default {
     }
 
     var hitIdx = -1
-    var total = Math.min((2 + this.level) * 5, 20)
+    var total = this._totalBricks
     for (var i = 0; i < total; i++) {
-      if (!this['b' + i + 'a']) continue
-      var bkx = this['b' + i + 'x']
-      var bky = this['b' + i + 'y']
+      if (!this[this._ba[i]]) continue
+      var bkx = this[this._bx[i]]
+      var bky = this[this._by[i]]
       var overlapX = Math.min(this.bx + this.ballS - bkx, bkx + this.bw - this.bx)
       var overlapY = Math.min(this.by + this.ballS - bky, bky + this.bh - this.by)
       if (overlapX > 0 && overlapY > 0) {
@@ -431,76 +935,97 @@ export default {
         } else {
           this.bvy = -this.bvy
         }
-        if (this.level === 2 && this['b' + i + 'c'] === '#ff3333') {
+        var kindHit = this[this._bk[i]]
+        if (kindHit > 0) {
+          this.score += 10
+          this.triggerSkill(kindHit, bkx + this.bw / 2, bky + this.bh / 2)
+          if (this.isBr) {
+            this.spawnBlueBall(bkx + this.bw / 2, bky + this.bh / 2)
+          }
+        } else if (this.isHp && this[this._bc[i]] === '#ff3333') {
+          this.buzz()
           this.hp--
           if (this.hp <= 0) { this.state = 1; this.over = true; this.calcRank(); return }
-        } else if (this.level === 2 && this['b' + i + 'c'] === '#33cc33') {
+        } else if (this.isHp && this[this._bc[i]] === '#33cc33') {
+          this.buzz()
           if (this.hp < 5) this.hp++
         } else {
           this.score += 10
-          if (this.level === 4) {
-            this.spawnBlueBall(this['b' + i + 'x'] + this.bw / 2, this['b' + i + 'y'] + this.bh / 2)
+          if (this.isBr) {
+            this.spawnBlueBall(bkx + this.bw / 2, bky + this.bh / 2)
           }
         }
         break
       }
     }
     if (hitIdx >= 0) {
-      this['b' + hitIdx + 'a'] = false
-      this['b' + hitIdx + 'x'] = -999
-      this['b' + hitIdx + 'y'] = -999
+      this.spawnSplash(this[this._bx[hitIdx]] + this.bw / 2, this[this._by[hitIdx]] + this.bh / 2)
+      this[this._ba[hitIdx]] = false
+      this[this._bx[hitIdx]] = -999
+      this[this._by[hitIdx]] = -999
+      this._aliveCnt--
+      this.bricksLeft = this._aliveCnt
     }
 
     for (var s = 0; s < 10; s++) {
-      if (!this['l' + s + 'a']) continue
-      var lx = this['l' + s + 'x'] + this['l' + s + 'vx']
-      var ly = this['l' + s + 'y'] + this['l' + s + 'vy']
-      this['l' + s + 'x'] = lx
-      this['l' + s + 'y'] = ly
-      if (lx <= this.playL) { this['l' + s + 'x'] = this.playL; this['l' + s + 'vx'] = Math.abs(this['l' + s + 'vx']) }
-      if (lx + this.ballS >= this.playR) { this['l' + s + 'x'] = this.playR - this.ballS; this['l' + s + 'vx'] = -Math.abs(this['l' + s + 'vx']) }
-      if (ly <= this.playT) { this['l' + s + 'y'] = this.playT; this['l' + s + 'vy'] = Math.abs(this['l' + s + 'vy']) }
-      if (this['l' + s + 'vy'] > 0 &&
+      if (!this[this._la[s]]) continue
+      if (!isFinite(this[this._lvx[s]]) || !isFinite(this[this._lvy[s]])) { this[this._lvx[s]] = 3.4; this[this._lvy[s]] = -3.4 }
+      if (!isFinite(this[this._lx[s]]) || !isFinite(this[this._ly[s]])) { this[this._lx[s]] = this.px; this[this._ly[s]] = this.py - this.ballS }
+      var lx = this[this._lx[s]] + this[this._lvx[s]] * mv
+      var ly = this[this._ly[s]] + this[this._lvy[s]] * mv
+      this[this._lx[s]] = lx
+      this[this._ly[s]] = ly
+      if (lx <= this.playL) { this[this._lx[s]] = this.playL; this[this._lvx[s]] = Math.abs(this[this._lvx[s]]); this.spawnRipple(this.playL, ly + this.ballS / 2) }
+      if (lx + this.ballS >= this.playR) { this[this._lx[s]] = this.playR - this.ballS; this[this._lvx[s]] = -Math.abs(this[this._lvx[s]]); this.spawnRipple(this.playR, ly + this.ballS / 2) }
+      if (ly <= this.playT) { this[this._ly[s]] = this.playT; this[this._lvy[s]] = Math.abs(this[this._lvy[s]]); this.spawnRipple(lx + this.ballS / 2, this.playT) }
+      if (this[this._lvy[s]] > 0 &&
           ly + this.ballS >= this.py &&
           ly + this.ballS <= this.py + this.ph + 4 &&
           lx + this.ballS >= this.px &&
           lx <= this.px + this.pw) {
-        this['l' + s + 'y'] = this.py - this.ballS
-        this['l' + s + 'vy'] = -Math.abs(this['l' + s + 'vy'])
+        this[this._ly[s]] = this.py - this.ballS
+        this[this._lvy[s]] = -Math.abs(this[this._lvy[s]])
         var lhit = (lx + this.ballS / 2 - this.px) / this.pw
-        this['l' + s + 'vx'] = (lhit - 0.5) * 4
-        if (this['l' + s + 'vx'] > 0 && this['l' + s + 'vx'] < 1) this['l' + s + 'vx'] = 1
-        if (this['l' + s + 'vx'] < 0 && this['l' + s + 'vx'] > -1) this['l' + s + 'vx'] = -1
+        this[this._lvx[s]] = (lhit - 0.5) * 4
+        if (this[this._lvx[s]] > 0 && this[this._lvx[s]] < 1) this[this._lvx[s]] = 1
+        if (this[this._lvx[s]] < 0 && this[this._lvx[s]] > -1) this[this._lvx[s]] = -1
       }
       var lhitIdx = -1
-      var totalL = Math.min((2 + this.level) * 5, 20)
+      var totalL = this._totalBricks
       for (var i2 = 0; i2 < totalL; i2++) {
-        if (!this['b' + i2 + 'a']) continue
-        var bx2 = this['b' + i2 + 'x']
-        var by2 = this['b' + i2 + 'y']
+        if (!this[this._ba[i2]]) continue
+        var bx2 = this[this._bx[i2]]
+        var by2 = this[this._by[i2]]
         var ox = Math.min(lx + this.ballS - bx2, bx2 + this.bw - lx)
         var oy = Math.min(ly + this.ballS - by2, by2 + this.bh - ly)
         if (ox > 0 && oy > 0) {
           lhitIdx = i2
           if (ox < oy) {
-            this['l' + s + 'vx'] = -this['l' + s + 'vx']
+            this[this._lvx[s]] = -this[this._lvx[s]]
           } else {
-            this['l' + s + 'vy'] = -this['l' + s + 'vy']
+            this[this._lvy[s]] = -this[this._lvy[s]]
           }
           this.score += 5
+          var kindL = this[this._bk[i2]]
+          if (kindL > 0) {
+            this.triggerSkill(kindL, bx2 + this.bw / 2, by2 + this.bh / 2)
+          }
           break
         }
       }
       if (lhitIdx >= 0) {
-        this['b' + lhitIdx + 'a'] = false
-        this['b' + lhitIdx + 'x'] = -999
-        this['b' + lhitIdx + 'y'] = -999
+        this.spawnSplash(this[this._bx[lhitIdx]] + this.bw / 2, this[this._by[lhitIdx]] + this.bh / 2)
+        this[this._ba[lhitIdx]] = false
+        this[this._bx[lhitIdx]] = -999
+        this[this._by[lhitIdx]] = -999
+        this._aliveCnt--
+        this.bricksLeft = this._aliveCnt
       }
-      var aimL = this.aimAtBrick(this['l' + s + 'x'], this['l' + s + 'y'], this['l' + s + 'vx'], this['l' + s + 'vy'])
-      this['l' + s + 'vx'] = aimL.vx
-      this['l' + s + 'vy'] = aimL.vy
-      if (this['l' + s + 'y'] + this.ballS > this.playB) {
-        this['l' + s + 'a'] = false
+      var aimL = this.aimAtBrick(this[this._lx[s]], this[this._ly[s]], this[this._lvx[s]], this[this._lvy[s]])
+      this[this._lvx[s]] = aimL.vx
+      this[this._lvy[s]] = aimL.vy
+      if (this[this._ly[s]] + this.ballS > this.playB) {
+        this[this._la[s]] = false
         this.blueCount--
       }
     }
@@ -509,19 +1034,13 @@ export default {
     this.bvx = aimM.vx
     this.bvy = aimM.vy
 
-    var aliveCount = 0
-    for (var j = 0; j < 20; j++) {
-      if (this['b' + j + 'a']) aliveCount++
-    }
-
     if (this.by + this.ballS > this.playB) {
-      if (this.level === 2) {
+      if (this.isHp) {
         this.hp--
         if (this.hp <= 0) {
           this.state = 1
           this.over = true
           this.calcRank()
-          this.saveBestHpScore()
         } else {
           this.respawnBall()
         }
@@ -530,89 +1049,102 @@ export default {
       this.state = 1
       this.over = true
       this.calcRank()
-      if (this.level === 3) this.saveBestScore()
       return
     }
-    if (aliveCount <= 0) {
+    }
+    if (this._aliveCnt <= 0) {
       this.state = 2
       this.win = true
       this.calcRank()
-      if (this.level === 1) this.saveBestTime()
-      if (this.level === 2) this.saveBestHpScore()
-      if (this.level === 3) this.saveBestScore()
       return
     }
   },
 
   calcRank() {
+    this.gameTime = Math.floor((Date.now() - this.startTime - this._pauseTotal) / 1000)
     this.calories = Math.floor(this.gameTime / 60 * 0.85 * 10) / 10
-    if (this.level === 1) {
-      var t = this.gameTime
-      if (t <= 30) this.timeRank = '已经超越99%玩家'
-      else if (t <= 60) this.timeRank = '已经超越80%玩家'
-      else if (t <= 90) this.timeRank = '已经超越60%玩家'
-      else if (t <= 120) this.timeRank = '已经超越40%玩家'
-      else this.timeRank = '已经超越20%玩家'
-    }
-    if (this.level === 3) {
-      var s = this.score
-      if (s >= 200) this.scoreRank = '已经超越99%玩家'
-      else if (s >= 150) this.scoreRank = '已经超越80%玩家'
-      else if (s >= 100) this.scoreRank = '已经超越60%玩家'
-      else if (s >= 50) this.scoreRank = '已经超越40%玩家'
-      else this.scoreRank = '已经超越20%玩家'
+    this.calJ = Math.round(this.calories * 4184)
+    this.maskFade()
+    addRun(this.gameTime, this.calories, this.swings)
+    if (this.isWild) {
+      if (this.win) updateBest('bestWild', Math.floor(this.gameTime), true)
+    } else if (this.isBr) {
+      if (this.win) updateBest('bestBrTime', Math.floor(this.gameTime), true)
+    } else if (this.isExt) {
+      if (this.win) updateBest('bestExtTime', Math.floor(this.gameTime), true)
+    } else if (this.isHp) {
+      updateBest('bestHp', this.score, false)
     }
   },
 
-  saveBestTime() {
-    if (this.bestTime === 0 || this.gameTime < this.bestTime) {
-      this.bestTime = Math.floor(this.gameTime)
-      storage.set({ key: 'bestTime', data: String(this.bestTime) })
+  maskFade() {
+    var self = this
+    var seq = [['oMsg', 0], ['oH1', 70], ['oH2', 140], ['oH3', 210], ['oH4', 280], ['oH5', 350], ['oPill', 420]]
+    for (var i = 0; i < seq.length; i++) {
+      (function(k, delay) {
+        setTimeout(function() { self.fadeIn(k) }, delay)
+      })(seq[i][0], seq[i][1])
     }
   },
 
-  saveBestScore() {
-    if (this.score > this.bestScore) {
-      this.bestScore = this.score
-      storage.set({ key: 'bestScore', data: String(this.bestScore) })
+  fadeIn(key) {
+    var self = this
+    var step = function() {
+      var v = self[key] + 0.2
+      if (v >= 1) { self[key] = 1; return }
+      self[key] = v
+      setTimeout(step, 30)
     }
-  },
-
-  saveBestHpScore() {
-    if (this.score > this.bestHpScore) {
-      this.bestHpScore = this.score
-      storage.set({ key: 'bestHpScore', data: String(this.bestHpScore) })
-    }
+    step()
   },
 
   onSwipe(e) {
-    if (this.state !== 0) { this.afterGame(); return }
-    if (this.level === 3) {
-      if (e.direction === 'left') this.swipeVel = -11
-      else if (e.direction === 'right') this.swipeVel = 11
-    } else {
-      if (e.direction === 'left') this.swipeVel = -9.5
-      else if (e.direction === 'right') this.swipeVel = 9.5
-    }
+    if (this.state !== 0) { this.afterGame() }
+  },
+
+  onTouchStart(e) {
+    if (this.state !== 0 || this.paused) return
+    var t = e.touches && e.touches[0]
+    if (!t) return
+    var x = t.localX !== undefined ? t.localX : t.clientX
+    var y = t.localY !== undefined ? t.localY : t.clientY
+    if (y < 60) return
+    this.touchActive = true
+    this.swings++
+    this.movePaddleTo(x)
+  },
+
+  onTouchMove(e) {
+    if (this.state !== 0 || this.paused || !this.touchActive) return
+    var t = e.touches && e.touches[0]
+    if (!t) return
+    var x = t.localX !== undefined ? t.localX : t.clientX
+    this.movePaddleTo(x)
+  },
+
+  onTouchEnd() {
+    this.touchActive = false
+  },
+
+  movePaddleTo(cx) {
+    if (!isFinite(cx)) return
+    this.px = cx - this.pw / 2
+    if (this.px < this.playL) this.px = this.playL
+    if (this.px > this.playR - this.pw) this.px = this.playR - this.pw
   },
 
   onMaskClick() { this.afterGame() },
 
   afterGame() {
     if (this.state === 1) {
-      if (this.level === 2) this.hp = 3
+      if (this.isHp) this.hp = 3
       this.buildBricks()
       this.resetBall()
+      this.schedule()
     } else if (this.state === 2) {
-      if (this.level < 3) {
-        this.level++
-        this.updateModeFlags()
-        this.buildBricks()
-        this.resetBall()
-        if (this.level === 2) this.hp = 3
-      } else {
-        router.push({ uri: '/pages/index' })
-      }
+      this.stopLoop()
+      this.unsubscribeSensor()
+      router.back()
     }
   }
 }
@@ -637,7 +1169,10 @@ export default {
   left: 0;
   width: 480px;
   height: 60px;
-  background-color: rgba(20,20,20,0.9);
+  background-color: rgba(12,12,18,0.92);
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: rgba(255,255,255,0.08);
   flex-direction: column;
   justify-content: center;
   z-index: 8;
@@ -649,10 +1184,16 @@ export default {
   align-items: center;
 }
 
-.info-text {
-  font-size: 20px;
-  color: #ffffff;
-  margin-left: 10px;
+.info-label {
+  font-size: 17px;
+  color: #8e8e93;
+  margin-left: 8px;
+  margin-right: 3px;
+}
+
+.info-value {
+  font-size: 21px;
+  color: #f2f2f7;
   margin-right: 10px;
 }
 
@@ -667,23 +1208,22 @@ export default {
   position: absolute;
   width: 52px;
   height: 18px;
-  border-radius: 4px;
+  border-radius: 6px;
 }
 
 .paddle {
   position: absolute;
-  width: 100px;
   height: 12px;
   border-radius: 6px;
-  background-color: #00ccff;
+  background-color: #22c1e8;
 }
 
 .ball {
   position: absolute;
-  width: 22px;
-  height: 22px;
-  border-radius: 11px;
-  background-color: #ffff00;
+  width: 24px;
+  height: 24px;
+  border-radius: 12px;
+  background-color: #ffcc00;
 }
 
 .ball-white {
@@ -692,10 +1232,21 @@ export default {
 
 .ball-blue {
   position: absolute;
-  width: 22px;
-  height: 22px;
-  border-radius: 11px;
+  width: 24px;
+  height: 24px;
+  border-radius: 12px;
   background-color: #3399ff;
+}
+
+.ready-hint {
+  position: absolute;
+  left: 0;
+  top: 330px;
+  width: 480px;
+  text-align: center;
+  font-size: 22px;
+  color: rgba(255,255,255,0.55);
+  z-index: 6;
 }
 
 .mask {
@@ -704,27 +1255,103 @@ export default {
   top: 0;
   width: 480px;
   height: 480px;
-  background-color: rgba(0,0,0,0.85);
-  flex-direction: column;
+  background-color: rgba(0,0,0,0.72);
   justify-content: center;
   align-items: center;
   z-index: 10;
 }
 
+.mask-card {
+  width: 340px;
+  background-color: #14141c;
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgba(255,255,255,0.1);
+  border-radius: 28px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
 .msg {
-  font-size: 36px;
-  color: #ffffff;
+  font-size: 38px;
+  color: #f2f2f7;
   margin-bottom: 16px;
 }
 
 .hint {
-  font-size: 20px;
+  font-size: 19px;
   color: #ffcc00;
   margin-bottom: 10px;
 }
 
-.hint2 {
-  font-size: 16px;
-  color: #888888;
+.btn-pill {
+  font-size: 18px;
+  color: #8e8e93;
+  background-color: rgba(255,255,255,0.08);
+  border-radius: 22px;
+  padding-left: 28px;
+  padding-right: 28px;
+  padding-top: 9px;
+  padding-bottom: 9px;
+  margin-top: 10px;
+}
+
+.star {
+  position: absolute;
+  background-color: #ffffff;
+  border-radius: 50%;
+}
+
+.splash {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #9fd8ff;
+  z-index: 6;
+}
+
+.ripple {
+  position: absolute;
+  border-width: 2px;
+  border-style: solid;
+  border-color: #66ccff;
+  border-radius: 50%;
+  z-index: 5;
+}
+
+.edge-flash {
+  position: absolute;
+  left: 12px;
+  top: 12px;
+  width: 456px;
+  height: 456px;
+  border-width: 12px;
+  border-style: solid;
+  border-radius: 50%;
+  z-index: 11;
+}
+
+.pop-wrap {
+  position: absolute;
+  z-index: 12;
+  justify-content: center;
+  align-items: center;
+}
+
+.pop-text {
+  font-size: 26px;
+  color: #ffffff;
+  background-color: rgba(0,0,0,0.6);
+  border-radius: 12px;
+  padding-left: 12px;
+  padding-right: 12px;
+  padding-top: 4px;
+  padding-bottom: 4px;
 }
 </style>
